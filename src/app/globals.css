@@ -1,0 +1,168 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #333333;
+  --bg-primary-color: #005696;
+  --bg-secondary-color: #00a4e4;
+  --heading-color: #005696;
+  --body-color: #333333;
+  --font-body: Arial, Helvetica, sans-serif;
+  --font-heading: "Oswald", sans-serif;
+  --font-size-p1-desktop: 18px;
+  --font-size-p1-mobile: 16px;
+}
+
+body {
+  background: var(--background);
+  color: var(--body-color);
+  font-family: var(--font-body);
+  font-size: var(--font-size-p1-desktop);
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--heading-color);
+  font-family: var(--font-heading);
+  font-weight: 500;
+}
+
+h1 {
+  font-size: 56px;
+}
+
+h2 {
+  font-size: 40px;
+}
+
+h3 {
+  font-size: 30px;
+}
+
+h4 {
+  font-size: 28px;
+}
+
+h5 {
+  font-size: 24px;
+}
+
+h6 {
+  font-size: 20px;
+}
+
+p {
+  font-size: var(--font-size-p1-desktop);
+}
+
+a {
+  color: var(--bg-primary-color);
+}
+
+a:hover {
+  color: var(--bg-secondary-color);
+}
+/* =========================
+   LOGIN PAGE RESPONSIVE
+   All rules scoped to .loginPage to avoid
+   breaking app shell pages.
+========================= */
+
+@media (max-width: 1199px) {
+  h1 {
+    font-size: 32px;
+  }
+
+  h2 {
+    font-size: 28px;
+  }
+
+  h3 {
+    font-size: 24px;
+  }
+
+  h4 {
+    font-size: 20px;
+  }
+
+  h5 {
+    font-size: 18px;
+  }
+
+  p,
+  body {
+    font-size: var(--font-size-p1-mobile);
+  }
+}
+
+/* Large tablet */
+@media (max-width: 1024px) {
+  .loginPage .loginMain > div {
+    width: 400px !important;
+    padding: 40px !important;
+  }
+}
+
+/* Tablet — switch to hamburger */
+@media (max-width: 768px) {
+  /* Tighten header padding */
+  .loginPage .loginHeader {
+    padding: 0 20px !important;
+  }
+
+  .loginPage .loginHeader img {
+    height: 40px !important;
+  }
+
+  /* Hide inline nav links — hamburger takes over */
+  .loginPage .loginNavLinks {
+    display: none !important;
+  }
+
+  /* Show hamburger button */
+  .loginPage .loginNavToggle {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Main area */
+  .loginPage .loginMain {
+    padding: 16px !important;
+    height: auto !important;
+    min-height: calc(100vh - 80px) !important;
+  }
+
+  /* Login card */
+  .loginPage .loginMain > div {
+    width: 100% !important;
+    max-width: 420px !important;
+    padding: 28px !important;
+    border-radius: 10px !important;
+  }
+}
+
+/* Mobile */
+@media (max-width: 520px) {
+  .loginPage .loginHeader {
+    padding: 0 14px !important;
+  }
+
+  .loginPage .loginMain > div {
+    padding: 22px 18px !important;
+    border-radius: 8px !important;
+  }
+
+  .loginPage .loginMain h1 {
+    font-size: 22px !important;
+  }
+}

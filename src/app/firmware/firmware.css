@@ -1,0 +1,293 @@
+/* ================= TITLE ================= */
+
+.fw-titleCenter{
+  display:flex;
+  align-items:center;
+  flex-wrap: wrap;
+  gap:12px;
+  margin:0;
+  font-size:28px;
+  font-weight:800;
+  line-height: 1.2;
+}
+
+.fw-titleIcon{
+  font-size:24px;
+  background:#e6f1fa;
+  width:42px;
+  height:42px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:10px;
+}
+
+/* ================= CARD ================= */
+
+.fw-card{
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border:1px solid var(--line);
+  border-top:4px solid var(--brand);
+  padding:20px;
+}
+
+/* ================= TITLES ================= */
+
+.fw-card-title{
+  margin:0 0 14px;
+  font-size:15px;
+  font-weight:800;
+  color: var(--brand);
+}
+
+.fw-bigTitle{
+  margin:0 0 14px;
+  font-size:15px;
+  font-weight:800;
+  color: var(--brand);
+}
+
+/* ================= FORM ================= */
+
+.fw-form{
+  display:grid;
+  gap:10px;
+  margin-bottom:24px;
+  min-width: 0;
+}
+
+.fw-label{
+  font-size:13px;
+  font-weight:700;
+  color: var(--text);
+}
+
+.fw-input{
+  height:44px;
+  padding:0 14px;
+  border-radius:10px;
+  border:1px solid rgba(17,24,39,.14);
+  background:#fff;
+  font-size:14px;
+  width: 100%;
+}
+
+/* ================= FILE ================= */
+
+.fw-fileRow{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:8px 10px;
+  border-radius:10px;
+  border:1px solid rgba(17,24,39,.14);
+  background:#fff;
+  height:46px;
+  min-width: 0;
+}
+
+.fw-fileBtn{
+  padding:8px 14px;
+  border-radius:10px;
+  background: var(--brand-light);
+  color: var(--brand);
+  border:1px solid rgba(0,86,150,.22);
+  font-weight:800;
+  font-size:13px;
+}
+
+.fw-fileInput{
+  display:none;
+}
+
+.fw-fileName{
+  color: var(--muted);
+  font-size:13px;
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ================= BUTTON ================= */
+
+.fw-primaryBtn{
+  width:fit-content;
+  margin-top:8px;
+  padding:10px 16px;
+  border-radius:10px;
+  background:var(--brand) ;
+  border:none;;
+  color:#fff;
+  font-weight:800;
+}
+.fw-primaryBtn:hover{
+   background: linear-gradient(135deg, #fb7185, #f43f5e);
+}
+/* ================= TABLE ================= */
+
+.fw-tableWrap{
+  overflow-x:auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.fw-table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.fw-table thead th{
+  text-align:left;
+  font-size:12px;
+  font-weight:800;
+  padding:14px;
+  background: var(--brand-light);
+}
+
+.fw-table tbody td{
+  padding:14px;
+  border-bottom:1px solid var(--line);
+}
+
+.fw-tdVersion{
+  font-weight:900;
+}
+
+/* ================= STATUS ================= */
+
+.fw-pill{
+  padding:6px 12px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:900;
+}
+
+.fw-active{
+  background:#e9f8ef;
+  color:#1b7f3a;
+}
+
+.fw-inactive{
+  background:#ffe8e8;
+  color:#c23b3b;
+}
+
+/* ===================== FIRMWARE RESPONSIVE ===================== */
+
+@media (max-width: 768px) {
+  .fw-titleCenter {
+    font-size: 22px;
+  }
+
+  .fw-card {
+    padding: 16px;
+  }
+
+  .fw-primaryBtn {
+    width: 100%;
+  }
+
+  .fw-table {
+    min-width: 560px;
+  }
+
+  .fw-fileBtn {
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 520px) {
+  .fw-titleCenter {
+    font-size: 19px;
+    gap: 8px;
+  }
+
+  .fw-fileRow {
+    flex-direction: column;
+    height: auto;
+    align-items: stretch;
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .fw-fileBtn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .fw-fileName {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    word-break: break-word;
+  }
+
+  .fw-table {
+    min-width: 0;
+  }
+
+  .fw-table thead {
+    display: none;
+  }
+
+  .fw-table,
+  .fw-table tbody,
+  .fw-table tr,
+  .fw-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .fw-table tr {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: #fff;
+  }
+
+  .fw-table tbody td {
+    border-bottom: 0;
+    padding: 8px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .fw-table tbody td::before {
+    content: attr(data-label);
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .02em;
+  }
+
+  .fw-table tbody tr td[colspan] {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .fw-table tbody tr td[colspan]::before {
+    content: "";
+    display: none;
+  }
+}
+
+@media (max-width: 390px) {
+  .fw-card {
+    padding: 12px;
+  }
+
+  .fw-label,
+  .fw-input,
+  .fw-fileBtn,
+  .fw-fileName,
+  .fw-primaryBtn {
+    font-size: 12px;
+  }
+}

@@ -1,0 +1,413 @@
+/* ================= WRAPPER ================= */
+
+.allocationContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.allocationContainer .pageTitle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  line-height: 1.2;
+}
+
+/* SUCCESS MESSAGE */
+.successMsg {
+  color: green;
+  font-weight: 600;
+}
+
+/* ================= TOP CARD ================= */
+
+.allocationCard {
+  background: var(--card, #fff);
+  border-radius: var(--radius, 14px);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--line);
+  padding: 20px;
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 16px 30px;
+  min-width: 0;
+
+  border-top: 4px solid var(--brand);
+}
+
+/* Button row spans both columns, right-aligned */
+.btnRow {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* LEFT */
+.allocationLeft h3,
+.allocationRight h3 {
+  margin: 0 0 12px;
+  font-size: 15px;
+  font-weight: 900;
+  color: var(--brand);
+  font-family: var(--font-body, Arial, Helvetica, sans-serif);
+}
+
+.techList {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.techItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+}
+
+.techItem:last-child {
+  border-bottom: none;
+}
+
+.techItem img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+
+/* RIGHT */
+.allocationRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.allocationLeft,
+.allocationRight {
+  width: 100%;
+}
+
+
+
+/* ================= DROPDOWN ================= */
+
+.dropdownSelect {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-weight: 600;
+  background: #fff;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.dropdownSelect:focus {
+  outline: none;
+  border-color: var(--brand);
+}
+
+/* ================= BUTTON ================= */
+
+.btnPrimary {
+  background: var(--brand);
+  color: #fff;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 900;
+  font-size: 14px;
+  box-shadow: 0 10px 22px rgba(0,0,0,.12);
+  transition: all 0.25s ease;
+}
+
+.btnPrimary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+}
+
+.btnPrimary:active {
+  transform: scale(0.96);
+}
+
+/* ================= TABLE ================= */
+
+.allocationTable {
+  background: var(--card, #fff);
+  border-radius: var(--radius, 14px);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--brand);
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.tableHeader h2 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 900;
+  color: var(--brand);
+}
+
+.search {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.tableWrap {
+  padding: 12px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table {
+  width: 100%;
+  min-width: 500px;
+  border-collapse: collapse;
+}
+
+/* ── Match users.css exactly ── */
+.table th {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 13px;
+  background: var(--brand-light);
+  color: rgba(31, 41, 55, .85);
+}
+
+.table td {
+  text-align: center;
+  padding: 14px;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--text);
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.techCell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.techCell img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+/* TAGS */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 12px;
+  background: #e5e7eb;
+  margin-right: 6px;
+  margin-bottom: 6px;
+  font-size: 12px;
+}
+
+.tag.active {
+  background: #c7e0ff;
+}
+
+/* STATUS — match pill style from users */
+.status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .4px;
+  border: 1px solid transparent;
+}
+
+.status.active {
+  background: #e9f8ef;
+  color: #1b7f3a;
+  border-color: #bfeecd;
+}
+
+.status.inactive {
+  background: #ffe8e8;
+  color: #c23b3b;
+  border-color: #ffd0d0;
+}
+
+.errorMsg {
+  color: red;
+  font-weight: 600;
+}
+
+/* ===================== ALLOCATION RESPONSIVE ===================== */
+
+@media (max-width: 900px) {
+  .allocationCard {
+    grid-template-columns: 1fr;
+  }
+
+  .btnRow {
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 768px) {
+  .allocationContainer .pageTitle {
+    font-size: 24px;
+  }
+
+  .allocationContainer .pageTitleIcon {
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
+  }
+
+  .tableHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px 14px;
+  }
+
+  .tableWrap {
+    padding: 8px;
+  }
+
+  .table {
+    min-width: 480px;
+  }
+}
+
+@media (max-width: 520px) {
+  .allocationContainer {
+    gap: 14px;
+  }
+
+  .allocationContainer .pageTitle {
+    font-size: 20px;
+    gap: 8px;
+  }
+
+  .allocationContainer .pageTitleIcon {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+
+  .allocationCard,
+  .allocationTable {
+    border-radius: 12px;
+  }
+
+  .dropdownSelect {
+    width: 100%;
+  }
+
+  .btnPrimary {
+    width: 100%;
+    padding: 12px;
+  }
+
+  .allocationRight {
+    width: 100%;
+  }
+
+  .table {
+    min-width: 0;
+  }
+
+  .table thead {
+    display: none;
+  }
+
+  .table,
+  .table tbody,
+  .table tr,
+  .table td {
+    display: block;
+    width: 100%;
+  }
+
+  .table tr {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: #fff;
+  }
+
+  .table td {
+    border-bottom: 0;
+    padding: 8px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: right;
+    gap: 10px;
+  }
+
+  .table td::before {
+    content: attr(data-label);
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .02em;
+    text-align: left;
+  }
+
+  .table td[colspan] {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .table td[colspan]::before {
+    content: "";
+    display: none;
+  }
+
+  .tag {
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 390px) {
+  .allocationCard {
+    padding: 10px;
+  }
+
+  .dropdownSelect,
+  .btnPrimary,
+  .table td,
+  .tag,
+  .status {
+    font-size: 12px;
+  }
+}

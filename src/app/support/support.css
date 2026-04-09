@@ -1,0 +1,214 @@
+.supportPage {
+  min-height: 100vh;
+  background: #f4f7fb;
+  color: #333333;
+}
+
+.supportHeader {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: #005696;
+}
+
+.supportHeaderInner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.supportLogo {
+  height: 44px;
+}
+
+.supportNav {
+  display: flex;
+  gap: 22px;
+}
+
+.supportNav a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.supportNav a:hover {
+  color: #b0d6fe;
+}
+
+.supportMain {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 26px 24px 40px;
+}
+
+.supportHero {
+  border-radius: 16px;
+  padding: 28px;
+  color: #ffffff;
+  background: linear-gradient(120deg, #005696 0%, #00a4e4 100%);
+}
+
+.supportKicker {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.supportHero h1 {
+  margin: 10px 0 8px;
+  font-size: 56px;
+  line-height: 1.05;
+  color: #ffffff;
+}
+
+.supportHero p {
+  margin: 0;
+  max-width: 780px;
+  font-size: 18px;
+  line-height: 1.55;
+}
+
+.supportGrid {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.supportCard {
+  background: #ffffff;
+  border: 1px solid rgba(17, 24, 39, 0.1);
+  border-top: 4px solid #005696;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+.supportCard h2 {
+  margin: 0;
+  font-size: 30px;
+  color: #005696;
+}
+
+.supportCard p {
+  margin: 8px 0 12px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333333;
+}
+
+.supportMore {
+  color: #005696;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.supportMore:hover {
+  color: #00a4e4;
+}
+
+.supportAssist {
+  margin-top: 18px;
+  background: #ffffff;
+  border: 1px solid rgba(17, 24, 39, 0.1);
+  border-radius: 12px;
+  padding: 22px;
+  text-align: center;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+.supportAssist h2 {
+  margin: 0;
+  font-size: 40px;
+  color: #005696;
+}
+
+.supportAssist p {
+  margin: 10px auto 14px;
+  max-width: 760px;
+  font-size: 18px;
+  line-height: 1.55;
+  color: #333333;
+}
+
+.supportButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border-radius: 8px;
+  background: #005696;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 12px 18px;
+}
+
+.supportButton:hover {
+  background: #00a4e4;
+}
+
+.supportFooter {
+  margin-top: 22px;
+  color: #6b7280;
+  text-align: center;
+  font-size: 14px;
+}
+
+@media (max-width: 1199px) {
+  .supportHero h1 {
+    font-size: 32px;
+  }
+
+  .supportHero p,
+  .supportAssist p {
+    font-size: 16px;
+  }
+
+  .supportCard h2 {
+    font-size: 24px;
+  }
+
+  .supportAssist h2 {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 900px) {
+  .supportGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .supportHeaderInner {
+    padding: 0 12px;
+  }
+
+  .supportLogo {
+    height: 34px;
+  }
+
+  .supportNav a {
+    font-size: 14px;
+  }
+
+  .supportMain {
+    padding: 16px 12px 28px;
+  }
+
+  .supportHero,
+  .supportCard,
+  .supportAssist {
+    padding: 14px;
+  }
+}

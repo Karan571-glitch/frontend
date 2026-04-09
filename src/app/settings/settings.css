@@ -1,0 +1,509 @@
+/* ================= SETTINGS PAGE ================= */
+
+.settingsPage {
+  color: var(--text);
+  min-height: 100%;
+}
+
+/* ================= HERO ================= */
+
+.settingsHero {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #003f6e 0%, #005696 45%, #0a7cc9 100%);
+  border-radius: 20px;
+  padding: 32px 36px;
+  color: #ffffff;
+  box-shadow: 0 20px 50px rgba(0, 56, 110, 0.30);
+  margin-bottom: 24px;
+}
+
+/* Decorative circles */
+.settingsHero::before {
+  content: "";
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  pointer-events: none;
+}
+
+.settingsHero::after {
+  content: "";
+  position: absolute;
+  bottom: -80px;
+  right: 120px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  pointer-events: none;
+}
+
+.kicker {
+  margin: 0 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 11px;
+  font-weight: 700;
+  opacity: 0.7;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.kicker::before {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 2px;
+}
+
+.heroTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.heroTop h1 {
+  margin: 0;
+  font-size: clamp(30px, 4vw, 42px);
+  line-height: 1.05;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  color: #fff;
+}
+
+.profileMeter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  backdrop-filter: blur(6px);
+}
+
+.profileMeter::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 6px #4ade80;
+}
+
+.heroLead {
+  max-width: 600px;
+  margin: 14px 0 0;
+  font-size: 14px;
+  line-height: 1.7;
+  opacity: 0.82;
+}
+
+.heroRail {
+  height: 3px;
+  width: min(200px, 50%);
+  border-radius: 999px;
+  margin-top: 20px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.15) 100%);
+}
+
+/* ================= CATEGORY CARDS ================= */
+
+.settingsCards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.settingsCard {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid rgba(0, 86, 150, 0.10);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0, 56, 110, 0.06);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  overflow: hidden;
+}
+
+.settingsCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #005696, #0a7cc9);
+  border-radius: 16px 16px 0 0;
+}
+
+.settingsCard:hover {
+  box-shadow: 0 8px 24px rgba(0, 56, 110, 0.12);
+  transform: translateY(-2px);
+}
+
+.settingsCard h2 {
+  margin: 0 0 8px;
+  font-size: 15px;
+  font-weight: 800;
+  color: #003f6e;
+  letter-spacing: -0.2px;
+}
+
+.settingsCard p {
+  margin: 0;
+  color: #64748b;
+  line-height: 1.55;
+  font-size: 13px;
+}
+
+/* ================= SETTINGS GRID ================= */
+
+.settingsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* ================= PANELS ================= */
+
+.settingsPanel {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 86, 150, 0.10);
+  box-shadow: 0 2px 12px rgba(0, 56, 110, 0.06);
+  padding: 22px;
+  transition: box-shadow 0.2s ease;
+}
+
+.settingsPanel:hover {
+  box-shadow: 0 4px 20px rgba(0, 56, 110, 0.10);
+}
+
+.settingsPanel.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.panelHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid rgba(0, 86, 150, 0.08);
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+}
+
+.panelHead h3 {
+  margin: 0;
+  color: #003f6e;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.2px;
+}
+
+.chip {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  background: #e6f1fa;
+  color: #005696;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-weight: 800;
+  border: 1px solid rgba(0, 86, 150, 0.15);
+}
+
+/* ================= FORM FIELDS ================= */
+
+.formGrid.twoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.field span {
+  display: block;
+  margin-bottom: 6px;
+  color: #475569;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  border: 1.5px solid rgba(17, 24, 39, 0.12);
+  border-radius: 10px;
+  padding: 11px 14px;
+  font-size: 13px;
+  color: var(--text);
+  background: #f8fafc;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  font-family: inherit;
+}
+
+.field input:focus,
+.field select:focus {
+  border-color: #005696;
+  box-shadow: 0 0 0 3px rgba(0, 86, 150, 0.12);
+  background: #ffffff;
+}
+
+.field input:hover:not(:focus),
+.field select:hover:not(:focus) {
+  border-color: rgba(0, 86, 150, 0.3);
+  background: #ffffff;
+}
+
+.field input::placeholder {
+  color: #94a3b8;
+}
+
+.inlineField {
+  max-width: 260px;
+}
+
+/* ================= SWITCH ROWS ================= */
+
+.switchStack {
+  display: grid;
+  gap: 10px;
+}
+
+.switchRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
+  border: 1.5px solid rgba(0, 86, 150, 0.08);
+  border-radius: 12px;
+  padding: 14px 16px;
+  background: #f8faff;
+  transition: border-color 0.15s ease, background 0.15s ease;
+  cursor: pointer;
+}
+
+.switchRow:hover {
+  border-color: rgba(0, 86, 150, 0.22);
+  background: #f0f7ff;
+}
+
+.switchRow strong {
+  font-size: 13px;
+  color: #1e3a5f;
+  font-weight: 700;
+}
+
+.switchRow p {
+  margin: 4px 0 0;
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* Custom toggle switch */
+.switchRow input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 40px;
+  height: 22px;
+  border-radius: 999px;
+  background: #cbd5e1;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  margin-top: 2px;
+  transition: background 0.2s ease;
+}
+
+.switchRow input[type="checkbox"]::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease;
+}
+
+.switchRow input[type="checkbox"]:checked {
+  background: #005696;
+}
+
+.switchRow input[type="checkbox"]:checked::after {
+  transform: translateX(18px);
+}
+
+/* ================= TOGGLE GRID ================= */
+
+.toggleGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.switchRow.compact {
+  min-height: 110px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.switchRow.compact input[type="checkbox"] {
+  margin-top: 0;
+}
+
+/* ================= FOOTER / SAVE BAR ================= */
+
+.settingsFooter {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 86, 150, 0.10);
+  box-shadow: 0 2px 12px rgba(0, 56, 110, 0.06);
+  padding: 16px 20px;
+}
+
+.saveBtn {
+  border: 0;
+  border-radius: 10px;
+  background: linear-gradient(120deg, #003f6e 0%, #005696 50%, #0a7cc9 100%);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 13px;
+  padding: 12px 22px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+  letter-spacing: 0.02em;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+.saveBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(0, 86, 150, 0.30);
+}
+
+.saveBtn:active {
+  transform: translateY(0);
+}
+
+.saveBtn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.saveHint {
+  margin: 0;
+  color: #94a3b8;
+  font-size: 12px;
+  text-align: right;
+  line-height: 1.5;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1080px) {
+  .settingsCards {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .toggleGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 820px) {
+  .heroTop {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .settingsCards {
+    grid-template-columns: 1fr;
+  }
+
+  .settingsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .formGrid.twoCol {
+    grid-template-columns: 1fr;
+  }
+
+  .inlineField {
+    max-width: none;
+  }
+
+  .settingsFooter {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .saveHint {
+    text-align: left;
+  }
+
+  .toggleGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .switchRow.compact {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 520px) {
+  .settingsHero {
+    padding: 22px 20px;
+    border-radius: 14px;
+  }
+
+  .heroTop h1 {
+    font-size: 26px;
+  }
+
+  .settingsPanel {
+    padding: 16px;
+  }
+
+  .saveBtn {
+    width: 100%;
+    text-align: center;
+  }
+}

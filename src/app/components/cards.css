@@ -1,0 +1,97 @@
+/* ================= CARDS ================= */
+
+.cards {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--brand);
+
+  min-height: 100px;
+}
+
+.cardValue {
+  font-size: 30px;
+  font-weight: 900;
+  color: var(--text);
+  line-height: 1;
+}
+
+.cardLabel {
+  margin-top: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(31, 41, 55, 0.7);
+}
+
+/* ICON BOX */
+.cardIcon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--brand-light);
+  color: var(--brand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* SVG SIZE */
+.cardIcon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.cardIconGlyph {
+  width: 22px;
+  height: 22px;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1100px) {
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .cards {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .card {
+    padding: 16px;
+    min-height: 80px;
+  }
+
+  .cardValue {
+    font-size: 26px;
+  }
+
+  .cardIcon {
+    width: 38px;
+    height: 38px;
+  }
+}

@@ -1,0 +1,369 @@
+/* ================= SITES PAGE ================= */
+
+/* ===== Title row ===== */
+.pageTitle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.pageTitleIcon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--brand-light);
+  border: 1px solid rgba(0, 86, 150, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.pageTitleGlyph {
+  width: 20px;
+  height: 20px;
+  color: var(--brand);
+}
+
+.siteGlyph {
+  width: 20px;
+  height: 20px;
+  color: var(--brand);
+}
+
+/* ===== Header block ===== */
+.sitesHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.subtitle {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* ===== Panel ===== */
+.panel {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--brand);
+  overflow: hidden;
+}
+
+.panelHeader {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.panelHeader h2 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--brand);
+}
+
+.panelHeaderActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ===== Top action button ===== */
+.topEditBtn {
+  position: relative;
+  overflow: hidden;
+  border: none;
+  color: #fff;
+  background: var(--brand);
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+}
+
+.topEditBtn:hover {
+  background: linear-gradient(135deg, #fb7185, #f43f5e);
+}
+
+/* ===== Table ===== */
+.tableWrap {
+  padding: 12px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 14px;
+  background: var(--brand-light);
+  color: rgba(31, 41, 55, 0.85);
+}
+
+.table td {
+  padding: 14px;
+  border-bottom: 1px solid var(--line);
+  font-size: 14px;
+  color: var(--text);
+  text-align: center;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.strong {
+  font-weight: 700;
+}
+
+/* ===== Row action button ===== */
+.siteEditBtn {
+  min-width: 74px;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 2px solid var(--brand);
+  background: #fff;
+  color: var(--brand);
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.siteEditBtn:hover {
+  background: var(--brand-light);
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.modalCard {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  border: 1px solid rgba(17, 24, 39, 0.08);
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+  background: #f8fafc;
+}
+
+.modalTitleText {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--text);
+}
+
+.closeBtn {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid rgba(17, 24, 39, 0.1);
+  background: #fff;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.closeBtn:hover {
+  background: #f1f5f9;
+}
+
+.modalBody {
+  padding: 18px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 800;
+  color: #334155;
+}
+
+.input,
+.select {
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid rgba(17, 24, 39, 0.12);
+  padding: 0 12px;
+  font-size: 14px;
+  outline: none;
+}
+
+.input:focus,
+.select:focus {
+  border-color: rgba(0, 86, 150, 0.55);
+  box-shadow: 0 0 0 4px rgba(0, 86, 150, 0.12);
+}
+
+.twoCol {
+  margin-top: 6px;
+}
+
+.formError {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #fee2e2;
+  color: #991b1b;
+  font-weight: 800;
+  font-size: 13px;
+  border: 1px solid rgba(153, 27, 27, 0.18);
+}
+
+.modalActions {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  align-items: center;
+}
+
+.modalActions.between {
+  justify-content: space-between;
+}
+
+.rightActions {
+  display: flex;
+  gap: 10px;
+}
+
+.btnSecondary {
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(17, 24, 39, 0.14);
+  background: #fff;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.btnSecondary:hover {
+  background: #f1f5f9;
+}
+
+.btnPrimary {
+  height: 44px;
+  padding: 0 18px;
+  border-radius: 12px;
+  border: none;
+  background: var(--brand);
+  color: #fff;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+}
+
+.btnPrimary:hover {
+  background: linear-gradient(135deg, #fb7185, #f43f5e);
+}
+
+.btnDanger {
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 12px;
+  border: none;
+  background: #dc2626;
+  color: #fff;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.btnDanger:hover {
+  background: #b91c1c;
+}
+
+.btnPrimary:disabled,
+.btnSecondary:disabled,
+.btnDanger:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* ===================== SITES RESPONSIVE ===================== */
+
+@media (max-width: 768px) {
+  .sitesHeader {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .panelHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .panelHeaderActions {
+    width: 100%;
+  }
+
+  .topEditBtn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .tableWrap {
+    overflow-x: auto;
+  }
+
+  .table {
+    min-width: 600px;
+  }
+
+  .twoCol {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .pageTitle {
+    font-size: 20px;
+  }
+
+  .modalCard {
+    border-radius: 14px;
+  }
+}

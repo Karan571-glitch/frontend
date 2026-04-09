@@ -1,0 +1,60 @@
+.helpPage {
+  color: var(--text);
+}
+
+.helpCard {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 24px;
+  max-width: 860px;
+}
+
+.helpCard h1 {
+  margin: 0;
+  font-size: 30px;
+  color: #0d3d61;
+}
+
+.helpCard > p {
+  margin: 10px 0 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.helpList {
+  margin-top: 18px;
+  display: grid;
+  gap: 12px;
+}
+
+.helpItem {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px;
+  background: #fcfeff;
+}
+
+.helpItem h2 {
+  margin: 0;
+  font-size: 16px;
+  color: #0b4a78;
+}
+
+.helpItem p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+@media (max-width: 820px) {
+  .helpCard {
+    padding: 16px;
+  }
+
+  .helpCard h1 {
+    font-size: 24px;
+  }
+}

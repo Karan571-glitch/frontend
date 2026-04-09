@@ -1,0 +1,221 @@
+/* =========================================================
+   GLOBAL RESPONSIVE
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+/* Main page wrapper */
+.responsivePage {
+  width: 100%;
+  padding: 24px;
+}
+
+/* Header row */
+.responsiveHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* subtitle */
+.responsiveSubtitle {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Common content stack */
+.responsiveStack {
+  margin-top: 24px;
+  display: grid;
+  gap: 24px;
+}
+
+/* Common cards grid */
+.responsiveCards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* Uniform section block inside stack */
+.responsiveSection {
+  margin: 0 !important;
+}
+
+/* Panel/table wrapper */
+.responsivePanel {
+  width: 100%;
+  min-width: 0;
+  margin: 0 !important;
+}
+
+/* Table scroll on smaller screens */
+.responsiveTableWrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Better table behavior */
+.responsiveTable {
+  width: 100%;
+  min-width: 700px;
+  border-collapse: collapse;
+}
+
+/* Common button group */
+.responsiveActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Modal safety */
+.responsiveModalCard {
+  width: 560px;
+  max-width: 100%;
+}
+
+/* Form 2-column layout */
+.responsiveTwoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* Footer */
+.responsiveFooter {
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+  margin: 0 !important;
+}
+
+/* =========================
+   LARGE (1100–1280px)
+========================= */
+@media (max-width: 1280px) {
+  .responsiveCards {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* =========================
+   LARGE TABLET (1100px)
+========================= */
+@media (max-width: 1100px) {
+  .responsiveCards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* =========================
+   TABLET (768px)
+========================= */
+@media (max-width: 768px) {
+  .responsivePage {
+    padding: 16px;
+  }
+
+  .responsiveHeader {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .responsiveActions {
+    width: 100%;
+  }
+
+  .responsiveActions > * {
+    flex: 1 1 auto;
+  }
+
+  .responsiveTwoCol {
+    grid-template-columns: 1fr;
+  }
+
+  .responsiveStack {
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  /* Make panelHeaderActions wrap */
+  .panelHeaderActions {
+    flex-wrap: wrap !important;
+    width: 100% !important;
+  }
+
+  .panelHeaderActions .select {
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+
+  .panelHeaderActions .topEditBtn,
+  .panelHeaderActions .TtopEditBtn {
+    width: 100% !important;
+    text-align: center !important;
+  }
+}
+
+/* =========================
+   MOBILE (520px)
+========================= */
+@media (max-width: 520px) {
+  .responsivePage {
+    padding: 14px;
+  }
+
+  .responsiveCards {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .responsiveStack {
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  .responsiveModalCard {
+    width: 100%;
+    border-radius: 14px !important;
+  }
+
+  /* Page titles */
+  .pageTitle {
+    font-size: 20px !important;
+  }
+}
+
+/* =========================
+   SMALL MOBILE (390px)
+========================= */
+@media (max-width: 390px) {
+  .responsivePage {
+    padding: 12px;
+  }
+}
+
+/* ================= UTILITIES ================= */
+
+/* Footer used across pages */
+.footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 20px;
+}
+
+/* Thin horizontal rule used on dashboard */
+.devices-divider {
+  height: 1px;
+  background: var(--line, rgba(17, 24, 39, 0.08));
+  margin: 16px 0;
+}
