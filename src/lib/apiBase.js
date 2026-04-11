@@ -1,6 +1,6 @@
 /** Base URL for the Express API (must match backend PORT; Next.js usually runs on :3000). */
 export const API_BASE = (
-  process.env.NEXT_PUBLIC_API_URL || "http://3.19.222.155:3000"
+  process.env.NEXT_PUBLIC_API_URL || "https://api.bgfirmwaremanager.xyz"
 ).replace(/\/$/, "");
 
 /** Use in client components when calling authenticated routes. */
