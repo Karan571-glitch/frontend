@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import AppNavHead from "../components/appNavHead";
 import "../components/appNavHead.css";
 import "../components/cards.css";
@@ -9,10 +9,10 @@ import "@/app/styles/responsive.css";
 import { API_BASE } from "@/lib/apiBase";
 
 export default function AllocationPage() {
-
   const [selectedSite, setSelectedSite] = useState("");
   const [selectedTech, setSelectedTech] = useState("");
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState({ text: "", type: "" });
+  const [search, setSearch] = useState("");
 
   const [sites, setSites] = useState([]);
   const [technicians, setTechnicians] = useState([]);
@@ -37,29 +37,22 @@ export default function AllocationPage() {
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       });
       const data = await res.json();
-
-      const techs = data.filter(user => user.role_id === 2);
+      const techs = data.filter((user) => user.role_id === 2);
       setTechnicians(techs);
-
     } catch (err) {
       console.error("Error fetching technicians:", err);
     }
   }
 
-  /* =========================
-     FETCH DATA
-  ========================= */
   useEffect(() => {
     fetchSites();
     fetchTechnicians();
   }, []);
 
-  /* =========================
-     SAVE ALLOCATION
-  ========================= */
   const handleSave = async () => {
     if (!selectedSite || !selectedTech) {
-      setMessage("Please select at least one site");
+      setMessage({ text: "Please select both a technician and a site.", type: "error" });
+      setTimeout(() => setMessage({ text: "", type: "" }), 3000);
       return;
     }
 
@@ -77,164 +70,216 @@ export default function AllocationPage() {
         }),
       });
 
-      setMessage("Allocation saved successfully!");
-
-      fetchSites(); // refresh table
-
-      setTimeout(() => setMessage(""), 3000);
-
+      setMessage({ text: "✓ Allocation saved successfully!", type: "success" });
+      setSelectedSite("");
+      setSelectedTech("");
+      fetchSites();
+      setTimeout(() => setMessage({ text: "", type: "" }), 3000);
     } catch (err) {
       console.error(err);
+      setMessage({ text: "Something went wrong. Please try again.", type: "error" });
     }
   };
 
-  /* =========================
-     GROUP DATA FOR TABLE
-  ========================= */
-
-  const allocationList = technicians.map(tech => {
+  /* Group sites per technician */
+  const allocationList = technicians.map((tech) => {
     const assignedSites = sites
-      .filter(site => site.technician_id === tech.user_id)
-      .map(site => site.site_name);
+      .filter((site) => site.technician_id === tech.user_id)
+      .map((site) => site.site_name);
 
     return {
-      technician_name: tech.name,
+      id: tech.user_id,
+      name: tech.name,
+      initials: tech.name
+        ? tech.name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2)
+        : "??",
       sites: assignedSites,
     };
   });
 
+  /* Stats */
+  const totalTechs = technicians.length;
+  const activeTechs = allocationList.filter((t) => t.sites.length > 0).length;
+  const totalSites = sites.length;
+
+  /* Filtered list */
+  const filtered = useMemo(() => {
+    const q = search.toLowerCase();
+    if (!q) return allocationList;
+    return allocationList.filter(
+      (t) =>
+        t.name.toLowerCase().includes(q) ||
+        t.sites.some((s) => s.toLowerCase().includes(q))
+    );
+  }, [allocationList, search]);
+
   return (
     <AppNavHead active="allocation">
+      <div className="allocationPage responsivePage">
 
-      <div className="allocationContainer responsivePage">
+        {/* ───── HERO ───── */}
+        <section className="allocationHero">
+          <p className="kicker">Operations Control</p>
+          <div className="heroTop">
+            <h1>Technician Allocation</h1>
+            <span className="allocBadge">{activeTechs} active assignments</span>
+          </div>
+          <p className="heroLead">
+            Assign field technicians to operational sites and manage your workforce deployment from one centralised panel.
+          </p>
+          <div className="heroRail" aria-hidden="true" />
+        </section>
 
-        <div className="responsiveHeader">
-          <div>
-            <h1 className="pageTitle">
-              <span className="pageTitleIcon">🔗</span>
-              Technician Allocation
-            </h1>
+        {/* ───── STATS ───── */}
+        <div className="allocStats">
+          <div className="allocStat">
+            <p className="statLabel">Total Technicians</p>
+            <p className="statValue">{totalTechs}</p>
+            <p className="statSub">Registered in system</p>
+          </div>
+          <div className="allocStat">
+            <p className="statLabel">Active Assignments</p>
+            <p className="statValue">{activeTechs}</p>
+            <p className="statSub">Currently deployed</p>
+          </div>
+          <div className="allocStat">
+            <p className="statLabel">Total Sites</p>
+            <p className="statValue">{totalSites}</p>
+            <p className="statSub">Managed locations</p>
           </div>
         </div>
 
-        {message && <p className="errorMsg">{message}</p>}
-
-        <div className="responsiveStack">
-
-        {/* ================= TOP CARD ================= */}
-        <div className="allocationCard responsiveSection">
-
-          {/* LEFT */}
-          <div className="allocationLeft">
-            <h3>Select Technician</h3>
-
-            <select
-              className="dropdownSelect"
-              value={selectedTech}
-              onChange={(e) => setSelectedTech(e.target.value)}
-            >
-              <option value="">Select Technician</option>
-
-              {technicians.map((tech) => (
-                <option key={tech.user_id} value={tech.user_id}>
-                  {tech.name}
-                </option>
-              ))}
-            </select>
+        {/* ───── FORM CARD ───── */}
+        <div className="allocFormCard">
+          <div className="allocFormHead">
+            <h2>Assign Technician to Site</h2>
+            <span className="chip">Quick Assign</span>
           </div>
 
-          {/* RIGHT */}
-          <div className="allocationRight">
-            <h3>Assign Sites</h3>
+          {message.text && (
+            <div className={`allocMsg ${message.type}`}>{message.text}</div>
+          )}
 
-            <select
-              className="dropdownSelect"
-              value={selectedSite}
-              onChange={(e) => setSelectedSite(e.target.value)}
-            >
-              <option value="">Select Sites</option>
-
-              {sites.map((site) => (
-                <option key={site.site_id} value={site.site_id}>
-                  {site.site_name}
-                </option>
-              ))}
-            </select>
-
-            <div className="btnWrapper">
-              <button className="btnPrimary" onClick={handleSave}>
-                Save Allocation
-              </button>
+          <div className="allocFormBody">
+            <div className="allocField">
+              <label htmlFor="techSelect">Select Technician</label>
+              <select
+                id="techSelect"
+                className="allocSelect"
+                value={selectedTech}
+                onChange={(e) => setSelectedTech(e.target.value)}
+              >
+                <option value="">Choose a technician…</option>
+                {technicians.map((tech) => (
+                  <option key={tech.user_id} value={tech.user_id}>
+                    {tech.name}
+                  </option>
+                ))}
+              </select>
             </div>
-          </div>
 
+            <div className="allocField">
+              <label htmlFor="siteSelect">Assign Site</label>
+              <select
+                id="siteSelect"
+                className="allocSelect"
+                value={selectedSite}
+                onChange={(e) => setSelectedSite(e.target.value)}
+              >
+                <option value="">Choose a site…</option>
+                {sites.map((site) => (
+                  <option key={site.site_id} value={site.site_id}>
+                    {site.site_name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <button className="allocSaveBtn" onClick={handleSave}>
+              Save Allocation
+            </button>
+          </div>
         </div>
 
-        {/* ================= TABLE ================= */}
-        <div className="allocationTable responsiveSection">
-
-          <div className="tableHeader">
+        {/* ───── TABLE ───── */}
+        <div className="allocTableCard">
+          <div className="allocTableHead">
             <h2>Current Allocations</h2>
-            {/* <input placeholder="🔍 Search ..." className="search" /> */}
+            <input
+              className="allocSearch"
+              placeholder="🔍  Search technician or site…"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
           </div>
 
-          <div className="responsiveTableWrap">
-          <table className="table responsiveTable">
-            <thead>
-              <tr>
-                <th>TECHNICIAN</th>
-                <th>SITES ASSIGNED</th>
-                <th>STATUS</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {allocationList.length === 0 ? (
+          <div className="allocTableWrap">
+            <table className="allocTable">
+              <thead>
                 <tr>
-                  <td colSpan="3" style={{ textAlign: "center" }}>
-                    No technicians found
-                  </td>
+                  <th>Technician</th>
+                  <th>Sites Assigned</th>
+                  <th>Status</th>
                 </tr>
-              ) : (
-                allocationList.map((item, index) => (
-                  <tr key={index}>
-                    <td data-label="Technician">{item.technician_name}</td>
-
-                    <td data-label="Sites Assigned">
-                      {item.sites.length === 0 ? (
-                        <span className="tag">No Sites</span>
-                      ) : (
-                        item.sites.map((site, i) => (
-                          <span key={i} className="tag active">
-                            {site}
-                          </span>
-                        ))
-                      )}
-                    </td>
-
-                    <td data-label="Status">
-                      <span className="status active">
-                        {item.sites.length > 0 ? "ACTIVE" : "INACTIVE"}
-                      </span>
+              </thead>
+              <tbody>
+                {filtered.length === 0 ? (
+                  <tr>
+                    <td colSpan="3">
+                      <div className="allocEmptyState">
+                        <div className="allocEmptyIcon">🔗</div>
+                        <p>
+                          {search
+                            ? "No results match your search."
+                            : "No technicians found. Add users to get started."}
+                        </p>
+                      </div>
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
+                ) : (
+                  filtered.map((item) => (
+                    <tr key={item.id}>
+                      <td data-label="Technician">
+                        <div className="techNameCell">
+                          <div className="techAvatar">{item.initials}</div>
+                          <strong>{item.name}</strong>
+                        </div>
+                      </td>
 
-          </table>
+                      <td data-label="Sites Assigned">
+                        {item.sites.length === 0 ? (
+                          <span className="allocTag none">No sites assigned</span>
+                        ) : (
+                          item.sites.map((site, i) => (
+                            <span key={i} className="allocTag assigned">
+                              {site}
+                            </span>
+                          ))
+                        )}
+                      </td>
+
+                      <td data-label="Status">
+                        <span
+                          className={`allocStatus ${
+                            item.sites.length > 0 ? "active" : "inactive"
+                          }`}
+                        >
+                          {item.sites.length > 0 ? "ACTIVE" : "UNASSIGNED"}
+                        </span>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
           </div>
-
         </div>
 
-          <footer className="responsiveFooter">
-            © 2026 Blue Giant Equipment Corporation
-          </footer>
-
-        </div>
+        <footer className="allocFooter">
+          © 2026 Blue Giant Equipment Corporation
+        </footer>
 
       </div>
-
     </AppNavHead>
   );
 }

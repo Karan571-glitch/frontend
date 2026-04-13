@@ -1,293 +1,520 @@
-/* ================= TITLE ================= */
 
-.fw-titleCenter{
-  display:flex;
-  align-items:center;
-  flex-wrap: wrap;
-  gap:12px;
-  margin:0;
-  font-size:28px;
-  font-weight:800;
-  line-height: 1.2;
+/* ================= FIRMWARE PAGE ================= */
+ 
+/* ================= HERO ================= */
+ 
+.fwHero {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #003f6e 0%, #005696 45%, #0a7cc9 100%);
+  border-radius: 20px;
+  padding: 32px 36px;
+  color: #ffffff;
+  box-shadow: 0 20px 50px rgba(0, 56, 110, 0.30);
+  margin-bottom: 24px;
 }
-
-.fw-titleIcon{
-  font-size:24px;
-  background:#e6f1fa;
-  width:42px;
-  height:42px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:10px;
+ 
+.fwHero::before {
+  content: "";
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 260px; height: 260px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  pointer-events: none;
 }
-
-/* ================= CARD ================= */
-
-.fw-card{
-  background: var(--card);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  border:1px solid var(--line);
-  border-top:4px solid var(--brand);
-  padding:20px;
+ 
+.fwHero::after {
+  content: "";
+  position: absolute;
+  bottom: -80px; right: 120px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  pointer-events: none;
 }
-
-/* ================= TITLES ================= */
-
-.fw-card-title{
-  margin:0 0 14px;
-  font-size:15px;
-  font-weight:800;
-  color: var(--brand);
+ 
+.fwKicker {
+  margin: 0 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 11px;
+  font-weight: 700;
+  opacity: 0.7;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
 }
-
-.fw-bigTitle{
-  margin:0 0 14px;
-  font-size:15px;
-  font-weight:800;
-  color: var(--brand);
+ 
+.fwKicker::before {
+  content: "";
+  display: inline-block;
+  width: 20px; height: 2px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 2px;
 }
-
-/* ================= FORM ================= */
-
-.fw-form{
-  display:grid;
-  gap:10px;
-  margin-bottom:24px;
-  min-width: 0;
+ 
+.fwHeroTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
 }
-
-.fw-label{
-  font-size:13px;
-  font-weight:700;
-  color: var(--text);
+ 
+.fwHeroTop h1 {
+  margin: 0;
+  font-size: clamp(30px, 4vw, 42px);
+  line-height: 1.05;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  color: #fff;
 }
-
-.fw-input{
-  height:44px;
-  padding:0 14px;
-  border-radius:10px;
-  border:1px solid rgba(17,24,39,.14);
-  background:#fff;
-  font-size:14px;
+ 
+.fwHeroBadge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  backdrop-filter: blur(6px);
+  color: #fff;
+}
+ 
+.fwHeroBadge::before {
+  content: "";
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 6px #4ade80;
+}
+ 
+.fwHeroLead {
+  max-width: 600px;
+  margin: 14px 0 0;
+  font-size: 14px;
+  line-height: 1.7;
+  opacity: 0.82;
+  color: #fff;
+}
+ 
+.fwHeroRail {
+  height: 3px;
+  width: min(200px, 50%);
+  border-radius: 999px;
+  margin-top: 20px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.15) 100%);
+}
+ 
+/* ================= TWO-COLUMN LAYOUT ================= */
+ 
+.fwGrid {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 20px;
+  align-items: start;
+  margin-bottom: 20px;
+}
+ 
+/* ================= SHARED PANEL ================= */
+ 
+.fwPanel {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 56, 110, 0.06);
+  border: 1px solid rgba(0, 86, 150, 0.10);
+  overflow: hidden;
+  transition: box-shadow 0.2s ease;
+}
+ 
+.fwPanel:hover {
+  box-shadow: 0 4px 20px rgba(0, 56, 110, 0.10);
+}
+ 
+.fwPanelHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 22px;
+  border-bottom: 1px solid rgba(0, 86, 150, 0.08);
+  background: linear-gradient(to right, #f8faff, #ffffff);
+}
+ 
+.fwPanelHead h2 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 800;
+  color: #003f6e;
+  letter-spacing: -0.2px;
+}
+ 
+.fwChip {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  background: #e6f1fa;
+  color: #005696;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-weight: 800;
+  border: 1px solid rgba(0, 86, 150, 0.15);
+}
+ 
+.fwPanelBody {
+  padding: 22px;
+}
+ 
+/* ================= UPLOAD FORM ================= */
+ 
+.fwForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+ 
+.fwField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+ 
+.fwFieldLabel {
+  font-size: 11px;
+  font-weight: 800;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+ 
+.fwInput,
+.fwSelect {
   width: 100%;
+  height: 44px;
+  padding: 0 14px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(17, 24, 39, 0.12);
+  background: #f8fafc;
+  font-size: 13px;
+  font-family: inherit;
+  color: #1e293b;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 }
-
-/* ================= FILE ================= */
-
-.fw-fileRow{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:8px 10px;
-  border-radius:10px;
-  border:1px solid rgba(17,24,39,.14);
-  background:#fff;
-  height:46px;
-  min-width: 0;
+ 
+.fwInput:focus,
+.fwSelect:focus {
+  border-color: #005696;
+  box-shadow: 0 0 0 3px rgba(0, 86, 150, 0.12);
+  background: #fff;
 }
-
-.fw-fileBtn{
-  padding:8px 14px;
-  border-radius:10px;
-  background: var(--brand-light);
-  color: var(--brand);
-  border:1px solid rgba(0,86,150,.22);
-  font-weight:800;
-  font-size:13px;
+ 
+.fwInput:hover:not(:focus),
+.fwSelect:hover:not(:focus) {
+  border-color: rgba(0, 86, 150, 0.30);
+  background: #fff;
 }
-
-.fw-fileInput{
-  display:none;
+ 
+.fwInput::placeholder { color: #94a3b8; }
+ 
+/* File picker row */
+.fwFileRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px 0 0;
+  border-radius: 10px;
+  border: 1.5px solid rgba(17, 24, 39, 0.12);
+  background: #f8fafc;
+  height: 44px;
+  overflow: hidden;
+  transition: border-color 0.15s ease;
 }
-
-.fw-fileName{
-  color: var(--muted);
-  font-size:13px;
+ 
+.fwFileRow:hover {
+  border-color: rgba(0, 86, 150, 0.30);
+  background: #fff;
+}
+ 
+.fwFileBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0 14px;
+  background: #e6f1fa;
+  color: #005696;
+  border-right: 1.5px solid rgba(0, 86, 150, 0.15);
+  font-weight: 800;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+  transition: background 0.15s ease;
+}
+ 
+.fwFileBtn:hover { background: #d1e8f7; }
+ 
+.fwFileInput { display: none; }
+ 
+.fwFileName {
+  color: #94a3b8;
+  font-size: 13px;
   flex: 1;
   min-width: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-/* ================= BUTTON ================= */
-
-.fw-primaryBtn{
-  width:fit-content;
-  margin-top:8px;
-  padding:10px 16px;
-  border-radius:10px;
-  background:var(--brand) ;
-  border:none;;
-  color:#fff;
-  font-weight:800;
+ 
+.fwFileName.hasFile { color: #1e293b; font-weight: 600; }
+ 
+/* Upload button */
+.fwUploadBtn {
+  width: 100%;
+  margin-top: 6px;
+  padding: 13px 20px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(120deg, #003f6e 0%, #005696 50%, #0a7cc9 100%);
+  color: #fff;
+  font-weight: 800;
+  font-size: 13px;
+  font-family: inherit;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
 }
-.fw-primaryBtn:hover{
-   background: linear-gradient(135deg, #fb7185, #f43f5e);
+ 
+.fwUploadBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(0, 86, 150, 0.28);
 }
-/* ================= TABLE ================= */
-
-.fw-tableWrap{
-  overflow-x:auto;
+ 
+.fwUploadBtn:active { transform: translateY(0); }
+.fwUploadBtn:disabled { opacity: 0.60; cursor: not-allowed; transform: none; box-shadow: none; }
+ 
+/* Alert messages */
+.fwAlert {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+ 
+.fwAlert.error {
+  background: #ffe8e8;
+  color: #c23b3b;
+  border: 1px solid #ffd0d0;
+}
+ 
+.fwAlert.success {
+  background: #e9f8ef;
+  color: #1b7f3a;
+  border: 1px solid #bfeecd;
+}
+ 
+/* ================= TABLE PANEL ================= */
+ 
+.fwTableWrap {
+  overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
-
-.fw-table{
-  width:100%;
-  border-collapse:collapse;
+ 
+.fwTable {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
 }
-
-.fw-table thead th{
-  text-align:left;
-  font-size:12px;
-  font-weight:800;
-  padding:14px;
-  background: var(--brand-light);
+ 
+.fwTable th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 14px 20px;
+  background: #f0f7ff;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid rgba(0, 86, 150, 0.08);
+  white-space: nowrap;
 }
-
-.fw-table tbody td{
-  padding:14px;
-  border-bottom:1px solid var(--line);
+ 
+.fwTable td {
+  padding: 15px 20px;
+  border-bottom: 1px solid rgba(0, 86, 150, 0.06);
+  font-size: 13px;
+  color: #1e293b;
+  vertical-align: middle;
 }
-
-.fw-tdVersion{
-  font-weight:900;
+ 
+.fwTable tr:last-child td { border-bottom: none; }
+ 
+.fwTable tbody tr { transition: background 0.15s ease; }
+.fwTable tbody tr:hover { background: #f8faff; }
+ 
+.fwVersion {
+  font-family: ui-monospace, "Courier New", monospace;
+  font-size: 12px;
+  font-weight: 800;
+  background: #e6f1fa;
+  color: #005696;
+  border: 1px solid rgba(0, 86, 150, 0.18);
+  border-radius: 6px;
+  padding: 3px 9px;
+  letter-spacing: 0.5px;
+  display: inline-block;
 }
-
-/* ================= STATUS ================= */
-
-.fw-pill{
-  padding:6px 12px;
-  border-radius:999px;
-  font-size:11px;
-  font-weight:900;
+ 
+/* Status pill */
+.fwPill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 13px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.4px;
+  border: 1px solid transparent;
 }
-
-.fw-active{
-  background:#e9f8ef;
-  color:#1b7f3a;
+ 
+.fwPill.fw-active {
+  background: #e9f8ef;
+  color: #1b7f3a;
+  border-color: #bfeecd;
 }
-
-.fw-inactive{
-  background:#ffe8e8;
-  color:#c23b3b;
+ 
+.fwPill.fw-inactive {
+  background: #ffe8e8;
+  color: #c23b3b;
+  border-color: #ffd0d0;
 }
-
-/* ===================== FIRMWARE RESPONSIVE ===================== */
-
-@media (max-width: 768px) {
-  .fw-titleCenter {
-    font-size: 22px;
+ 
+/* Empty state */
+.fwEmptyState {
+  text-align: center;
+  padding: 52px 20px;
+}
+ 
+.fwEmptyIcon {
+  font-size: 36px;
+  opacity: 0.35;
+  margin-bottom: 10px;
+}
+ 
+.fwEmptyState p {
+  color: #94a3b8;
+  font-size: 14px;
+  margin: 0;
+}
+ 
+/* ================= FOOTER ================= */
+ 
+.fwFooter {
+  text-align: center;
+  font-size: 12px;
+  color: #94a3b8;
+  padding: 20px 0 8px;
+}
+ 
+/* ================= RESPONSIVE ================= */
+ 
+@media (max-width: 1024px) {
+  .fwGrid {
+    grid-template-columns: 340px 1fr;
   }
-
-  .fw-card {
-    padding: 16px;
+}
+ 
+@media (max-width: 820px) {
+  .fwHeroTop {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
   }
-
-  .fw-primaryBtn {
-    width: 100%;
-  }
-
-  .fw-table {
-    min-width: 560px;
-  }
-
-  .fw-fileBtn {
-    flex-shrink: 0;
+ 
+  .fwGrid {
+    grid-template-columns: 1fr;
   }
 }
-
+ 
 @media (max-width: 520px) {
-  .fw-titleCenter {
-    font-size: 19px;
-    gap: 8px;
-  }
-
-  .fw-fileRow {
+  .fwHero { padding: 22px 20px; border-radius: 14px; }
+  .fwHeroTop h1 { font-size: 26px; }
+  .fwPanel { border-radius: 12px; }
+  .fwPanelBody { padding: 16px; }
+ 
+  .fwFileRow {
     flex-direction: column;
     height: auto;
     align-items: stretch;
-    gap: 8px;
-    padding: 10px;
+    gap: 0;
+    padding: 0;
   }
-
-  .fw-fileBtn {
+ 
+  .fwFileBtn {
+    height: 44px;
+    border-right: none;
+    border-bottom: 1.5px solid rgba(0, 86, 150, 0.15);
+    border-radius: 0;
     width: 100%;
-    text-align: center;
   }
-
-  .fw-fileName {
+ 
+  .fwFileName {
+    padding: 12px 14px;
     white-space: normal;
     overflow: visible;
     text-overflow: clip;
     word-break: break-word;
   }
-
-  .fw-table {
-    min-width: 0;
-  }
-
-  .fw-table thead {
-    display: none;
-  }
-
-  .fw-table,
-  .fw-table tbody,
-  .fw-table tr,
-  .fw-table td {
-    display: block;
-    width: 100%;
-  }
-
-  .fw-table tr {
-    border: 1px solid var(--line);
+ 
+  .fwTable { min-width: 0; }
+  .fwTable thead { display: none; }
+  .fwTable,
+  .fwTable tbody,
+  .fwTable tr,
+  .fwTable td { display: block; width: 100%; }
+ 
+  .fwTable tr {
+    border: 1px solid rgba(0, 86, 150, 0.10);
     border-radius: 12px;
-    padding: 10px;
-    margin-bottom: 10px;
+    padding: 10px 14px;
+    margin: 8px 12px;
     background: #fff;
+    width: calc(100% - 24px);
   }
-
-  .fw-table tbody td {
+ 
+  .fwTable td {
     border-bottom: 0;
     padding: 8px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    text-align: right;
     gap: 10px;
   }
-
-  .fw-table tbody td::before {
+ 
+  .fwTable td::before {
     content: attr(data-label);
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 800;
-    color: var(--muted);
+    color: #94a3b8;
     text-transform: uppercase;
-    letter-spacing: .02em;
-  }
-
-  .fw-table tbody tr td[colspan] {
-    justify-content: center;
-    text-align: center;
-  }
-
-  .fw-table tbody tr td[colspan]::before {
-    content: "";
-    display: none;
-  }
-}
-
-@media (max-width: 390px) {
-  .fw-card {
-    padding: 12px;
-  }
-
-  .fw-label,
-  .fw-input,
-  .fw-fileBtn,
-  .fw-fileName,
-  .fw-primaryBtn {
-    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-align: left;
+    flex-shrink: 0;
   }
 }

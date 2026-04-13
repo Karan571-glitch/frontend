@@ -1,369 +1,643 @@
-/* ================= WRAPPER ================= */
+/* ================= ALLOCATION PAGE ================= */
 
-.allocationContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.allocationPage {
+  color: var(--text);
+  min-height: 100%;
 }
 
-.allocationContainer .pageTitle {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  line-height: 1.2;
-}
+/* ================= HERO ================= */
 
-/* SUCCESS MESSAGE */
-.successMsg {
-  color: green;
-  font-weight: 600;
-}
-
-/* ================= TOP CARD ================= */
-
-.allocationCard {
-  background: var(--card, #fff);
-  border-radius: var(--radius, 14px);
-  box-shadow: var(--shadow);
-  border: 1px solid var(--line);
-  padding: 20px;
-  width: 100%;
-
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto;
-  gap: 16px 30px;
-  min-width: 0;
-
-  border-top: 4px solid var(--brand);
-}
-
-/* Button row spans both columns, right-aligned */
-.btnRow {
-  grid-column: 1 / -1;
-  display: flex;
-  justify-content: flex-end;
-}
-
-/* LEFT */
-.allocationLeft h3,
-.allocationRight h3 {
-  margin: 0 0 12px;
-  font-size: 15px;
-  font-weight: 900;
-  color: var(--brand);
-  font-family: var(--font-body, Arial, Helvetica, sans-serif);
-}
-
-.techList {
-  border: 1px solid var(--line);
-  border-radius: 12px;
+.allocationHero {
+  position: relative;
   overflow: hidden;
+  background: linear-gradient(135deg, #003f6e 0%, #005696 45%, #0a7cc9 100%);
+  border-radius: 20px;
+  padding: 32px 36px;
+  color: #ffffff;
+  box-shadow: 0 20px 50px rgba(0, 56, 110, 0.30);
+  margin-bottom: 24px;
 }
 
-.techItem {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px;
-  border-bottom: 1px solid var(--line);
-  cursor: pointer;
-}
-
-.techItem:last-child {
-  border-bottom: none;
-}
-
-.techItem img {
-  width: 35px;
-  height: 35px;
+.allocationHero::before {
+  content: "";
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 260px;
+  height: 260px;
   border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  pointer-events: none;
 }
 
-/* RIGHT */
-.allocationRight {
+.allocationHero::after {
+  content: "";
+  position: absolute;
+  bottom: -80px;
+  right: 120px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  pointer-events: none;
+}
+
+.allocationHero .kicker {
+  margin: 0 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 11px;
+  font-weight: 700;
+  opacity: 0.7;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  min-width: 0;
-}
-
-.allocationLeft,
-.allocationRight {
-  width: 100%;
-}
-
-
-
-/* ================= DROPDOWN ================= */
-
-.dropdownSelect {
-  width: 100%;
-  min-width: 0;
-  max-width: 100%;
-  padding: 10px 14px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  font-weight: 600;
-  background: #fff;
-  cursor: pointer;
-  margin-bottom: 10px;
-}
-
-.dropdownSelect:focus {
-  outline: none;
-  border-color: var(--brand);
-}
-
-/* ================= BUTTON ================= */
-
-.btnPrimary {
-  background: var(--brand);
+  align-items: center;
+  gap: 8px;
   color: #fff;
-  border: none;
-  padding: 12px 22px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-weight: 900;
-  font-size: 14px;
-  box-shadow: 0 10px 22px rgba(0,0,0,.12);
-  transition: all 0.25s ease;
 }
 
-.btnPrimary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+.allocationHero .kicker::before {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 2px;
 }
 
-.btnPrimary:active {
-  transform: scale(0.96);
-}
-
-/* ================= TABLE ================= */
-
-.allocationTable {
-  background: var(--card, #fff);
-  border-radius: var(--radius, 14px);
-  box-shadow: var(--shadow);
-  border: 1px solid var(--line);
-  border-top: 4px solid var(--brand);
-  width: 100%;
-  min-width: 0;
-  overflow: hidden;
-}
-
-.tableHeader {
+.allocationHero .heroTop {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--line);
+  align-items: flex-start;
+  gap: 16px;
 }
 
-.tableHeader h2 {
+.allocationHero h1 {
+  margin: 0;
+  font-size: clamp(30px, 4vw, 42px);
+  line-height: 1.05;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  color: #fff;
+}
+
+.allocBadge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  backdrop-filter: blur(6px);
+  color: #fff;
+}
+
+.allocBadge::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 6px #4ade80;
+}
+
+.allocationHero .heroLead {
+  max-width: 600px;
+  margin: 14px 0 0;
+  font-size: 14px;
+  line-height: 1.7;
+  opacity: 0.82;
+  color: #fff;
+}
+
+.allocationHero .heroRail {
+  height: 3px;
+  width: min(200px, 50%);
+  border-radius: 999px;
+  margin-top: 20px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.15) 100%);
+}
+
+/* ================= STATS ROW ================= */
+
+.allocStats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.allocStat {
+  background: #ffffff;
+  border: 1px solid rgba(0, 86, 150, 0.10);
+  border-radius: 16px;
+  padding: 20px 22px;
+  box-shadow: 0 2px 12px rgba(0, 56, 110, 0.06);
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.allocStat::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #005696, #0a7cc9);
+  border-radius: 16px 16px 0 0;
+}
+
+.allocStat:hover {
+  box-shadow: 0 8px 24px rgba(0, 56, 110, 0.12);
+  transform: translateY(-2px);
+}
+
+.allocStat .statLabel {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  color: #64748b;
+  margin: 0 0 8px;
+}
+
+.allocStat .statValue {
+  font-size: 32px;
+  font-weight: 900;
+  color: #003f6e;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.allocStat .statSub {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-top: 4px;
+}
+
+/* ================= FORM CARD ================= */
+
+.allocFormCard {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 86, 150, 0.10);
+  box-shadow: 0 2px 12px rgba(0, 56, 110, 0.06);
+  margin-bottom: 20px;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease;
+}
+
+.allocFormCard:hover {
+  box-shadow: 0 4px 20px rgba(0, 56, 110, 0.10);
+}
+
+.allocFormHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 22px;
+  border-bottom: 1px solid rgba(0, 86, 150, 0.08);
+  background: linear-gradient(to right, #f8faff, #ffffff);
+}
+
+.allocFormHead h2 {
   margin: 0;
   font-size: 15px;
-  font-weight: 900;
-  color: var(--brand);
+  font-weight: 800;
+  color: #003f6e;
+  letter-spacing: -0.2px;
 }
 
-.search {
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+.chip {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  background: #e6f1fa;
+  color: #005696;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-weight: 800;
+  border: 1px solid rgba(0, 86, 150, 0.15);
 }
 
-.tableWrap {
-  padding: 12px;
+.allocFormBody {
+  padding: 22px;
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 16px;
+  align-items: flex-end;
+}
+
+/* ================= FIELD ================= */
+
+.allocField {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.allocField label {
+  display: block;
+  margin-bottom: 7px;
+  color: #475569;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.allocSelect {
+  width: 100%;
+  border: 1.5px solid rgba(17, 24, 39, 0.12);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 13px;
+  color: var(--text, #1e293b);
+  background: #f8fafc;
+  outline: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23005696' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+
+.allocSelect:focus {
+  border-color: #005696;
+  box-shadow: 0 0 0 3px rgba(0, 86, 150, 0.12);
+  background-color: #ffffff;
+}
+
+.allocSelect:hover:not(:focus) {
+  border-color: rgba(0, 86, 150, 0.30);
+  background-color: #ffffff;
+}
+
+/* ================= SAVE BUTTON ================= */
+
+.allocSaveBtn {
+  border: 0;
+  border-radius: 10px;
+  background: linear-gradient(120deg, #003f6e 0%, #005696 50%, #0a7cc9 100%);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 13px;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+  letter-spacing: 0.02em;
+  font-family: inherit;
+  white-space: nowrap;
+  height: fit-content;
+}
+
+.allocSaveBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(0, 86, 150, 0.30);
+}
+
+.allocSaveBtn:active {
+  transform: translateY(0);
+}
+
+/* ================= MESSAGE ================= */
+
+.allocMsg {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0 22px 16px;
+}
+
+.allocMsg.success {
+  background: #e9f8ef;
+  color: #1b7f3a;
+  border: 1px solid #bfeecd;
+}
+
+.allocMsg.error {
+  background: #ffe8e8;
+  color: #c23b3b;
+  border: 1px solid #ffd0d0;
+}
+
+/* ================= TABLE CARD ================= */
+
+.allocTableCard {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 86, 150, 0.10);
+  box-shadow: 0 2px 12px rgba(0, 56, 110, 0.06);
+  overflow: hidden;
+  transition: box-shadow 0.2s ease;
+}
+
+.allocTableCard:hover {
+  box-shadow: 0 4px 20px rgba(0, 56, 110, 0.10);
+}
+
+.allocTableHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 22px;
+  border-bottom: 1px solid rgba(0, 86, 150, 0.08);
+  background: linear-gradient(to right, #f8faff, #ffffff);
+}
+
+.allocTableHead h2 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 800;
+  color: #003f6e;
+  letter-spacing: -0.2px;
+}
+
+.allocSearch {
+  padding: 9px 14px;
+  border-radius: 9px;
+  border: 1.5px solid rgba(17, 24, 39, 0.12);
+  font-size: 13px;
+  font-family: inherit;
+  background: #f8fafc;
+  color: var(--text, #1e293b);
+  outline: none;
+  width: 220px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.allocSearch:focus {
+  border-color: #005696;
+  box-shadow: 0 0 0 3px rgba(0, 86, 150, 0.12);
+  background: #fff;
+}
+
+.allocTableWrap {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
 
-.table {
+/* ================= TABLE ================= */
+
+.allocTable {
   width: 100%;
-  min-width: 500px;
+  min-width: 560px;
   border-collapse: collapse;
 }
 
-/* ── Match users.css exactly ── */
-.table th {
-  text-align: center;
-  font-size: 12px;
+.allocTable th {
+  text-align: left;
+  font-size: 11px;
   font-weight: 800;
-  padding: 13px;
-  background: var(--brand-light);
-  color: rgba(31, 41, 55, .85);
+  padding: 14px 20px;
+  background: #f0f7ff;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid rgba(0, 86, 150, 0.08);
 }
 
-.table td {
-  text-align: center;
-  padding: 14px;
-  border-bottom: 1px solid var(--line);
+.allocTable th:first-child {
+  border-radius: 0;
+}
+
+.allocTable td {
+  padding: 15px 20px;
+  border-bottom: 1px solid rgba(0, 86, 150, 0.06);
   font-size: 13px;
-  color: var(--text);
+  color: var(--text, #1e293b);
+  vertical-align: middle;
 }
 
-.table tr:last-child td {
+.allocTable tr:last-child td {
   border-bottom: none;
 }
 
-.techCell {
+.allocTable tbody tr {
+  transition: background 0.15s ease;
+}
+
+.allocTable tbody tr:hover {
+  background: #f8faff;
+}
+
+/* Tech name cell */
+.techNameCell {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.techCell img {
-  width: 30px;
-  height: 30px;
+.techAvatar {
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
-}
-
-/* TAGS */
-.tag {
-  display: inline-flex;
-  align-items: center;
-  padding: 6px 10px;
-  border-radius: 12px;
-  background: #e5e7eb;
-  margin-right: 6px;
-  margin-bottom: 6px;
-  font-size: 12px;
-}
-
-.tag.active {
-  background: #c7e0ff;
-}
-
-/* STATUS — match pill style from users */
-.status {
-  display: inline-flex;
+  background: linear-gradient(135deg, #005696, #0a7cc9);
+  display: flex;
   align-items: center;
   justify-content: center;
-  padding: 6px 12px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  flex-shrink: 0;
+  letter-spacing: 0.5px;
+}
+
+.techNameCell strong {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e3a5f;
+}
+
+/* Tags */
+.allocTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
   border-radius: 999px;
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: .4px;
+  font-size: 12px;
+  font-weight: 700;
+  margin: 3px 4px 3px 0;
   border: 1px solid transparent;
 }
 
-.status.active {
+.allocTag.assigned {
+  background: #e6f1fa;
+  color: #005696;
+  border-color: rgba(0, 86, 150, 0.20);
+}
+
+.allocTag.none {
+  background: #f1f5f9;
+  color: #94a3b8;
+  border-color: rgba(148, 163, 184, 0.20);
+}
+
+/* Status pill */
+.allocStatus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  border: 1px solid transparent;
+}
+
+.allocStatus.active {
   background: #e9f8ef;
   color: #1b7f3a;
   border-color: #bfeecd;
 }
 
-.status.inactive {
-  background: #ffe8e8;
-  color: #c23b3b;
-  border-color: #ffd0d0;
+.allocStatus.inactive {
+  background: #f1f5f9;
+  color: #64748b;
+  border-color: #e2e8f0;
 }
 
-.errorMsg {
-  color: red;
-  font-weight: 600;
+/* Empty state */
+.allocEmptyState {
+  text-align: center;
+  padding: 56px 20px;
 }
 
-/* ===================== ALLOCATION RESPONSIVE ===================== */
+.allocEmptyIcon {
+  font-size: 40px;
+  margin-bottom: 12px;
+  opacity: 0.4;
+}
 
-@media (max-width: 900px) {
-  .allocationCard {
-    grid-template-columns: 1fr;
-  }
+.allocEmptyState p {
+  color: #94a3b8;
+  font-size: 14px;
+  margin: 0;
+}
 
-  .btnRow {
-    justify-content: flex-end;
+/* ================= FOOTER ================= */
+
+.allocFooter {
+  text-align: center;
+  padding: 24px 0 8px;
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1080px) {
+  .allocStats {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
-@media (max-width: 768px) {
-  .allocationContainer .pageTitle {
-    font-size: 24px;
-  }
-
-  .allocationContainer .pageTitleIcon {
-    width: 38px;
-    height: 38px;
-    font-size: 18px;
-  }
-
-  .tableHeader {
+@media (max-width: 820px) {
+  .allocationHero .heroTop {
     flex-direction: column;
     align-items: flex-start;
-    gap: 8px;
-    padding: 12px 14px;
+    gap: 12px;
   }
 
-  .tableWrap {
-    padding: 8px;
+  .allocStats {
+    grid-template-columns: 1fr 1fr;
   }
 
-  .table {
-    min-width: 480px;
+  .allocFormBody {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .allocSaveBtn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .allocTableHead {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .allocSearch {
+    width: 100%;
   }
 }
 
 @media (max-width: 520px) {
-  .allocationContainer {
-    gap: 14px;
+  .allocationHero {
+    padding: 22px 20px;
+    border-radius: 14px;
   }
 
-  .allocationContainer .pageTitle {
-    font-size: 20px;
-    gap: 8px;
+  .allocationHero h1 {
+    font-size: 26px;
   }
 
-  .allocationContainer .pageTitleIcon {
-    width: 32px;
-    height: 32px;
-    font-size: 16px;
+  .allocStats {
+    grid-template-columns: 1fr;
   }
 
-  .allocationCard,
-  .allocationTable {
+  .allocFormCard,
+  .allocTableCard {
     border-radius: 12px;
   }
 
-  .dropdownSelect {
-    width: 100%;
+  .allocFormBody {
+    padding: 16px;
   }
 
-  .btnPrimary {
-    width: 100%;
-    padding: 12px;
+  .allocTableHead {
+    padding: 14px 16px;
   }
 
-  .allocationRight {
-    width: 100%;
+  .allocTable th,
+  .allocTable td {
+    padding: 12px 14px;
   }
 
-  .table {
+  .allocTable {
     min-width: 0;
   }
 
-  .table thead {
+  .allocTable thead {
     display: none;
   }
 
-  .table,
-  .table tbody,
-  .table tr,
-  .table td {
+  .allocTable,
+  .allocTable tbody,
+  .allocTable tr,
+  .allocTable td {
     display: block;
     width: 100%;
   }
 
-  .table tr {
-    border: 1px solid var(--line);
+  .allocTable tr {
+    border: 1px solid rgba(0, 86, 150, 0.10);
     border-radius: 12px;
-    padding: 10px;
-    margin-bottom: 10px;
+    padding: 10px 14px;
+    margin: 8px 12px;
     background: #fff;
+    width: calc(100% - 24px);
   }
 
-  .table td {
+  .allocTable td {
     border-bottom: 0;
     padding: 8px 0;
     display: flex;
@@ -373,41 +647,14 @@
     gap: 10px;
   }
 
-  .table td::before {
+  .allocTable td::before {
     content: attr(data-label);
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 800;
-    color: var(--muted);
+    color: #94a3b8;
     text-transform: uppercase;
-    letter-spacing: .02em;
+    letter-spacing: 0.06em;
     text-align: left;
-  }
-
-  .table td[colspan] {
-    justify-content: center;
-    text-align: center;
-  }
-
-  .table td[colspan]::before {
-    content: "";
-    display: none;
-  }
-
-  .tag {
-    margin-right: 0;
-  }
-}
-
-@media (max-width: 390px) {
-  .allocationCard {
-    padding: 10px;
-  }
-
-  .dropdownSelect,
-  .btnPrimary,
-  .table td,
-  .tag,
-  .status {
-    font-size: 12px;
+    flex-shrink: 0;
   }
 }

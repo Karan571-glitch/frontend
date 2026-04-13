@@ -28,15 +28,13 @@ function MonoIcon({ children, className = "siteGlyph" }) {
 function ModalWrapper({ title, children, onClose }) {
   return (
     <div className="modalOverlay" onMouseDown={onClose}>
-      <div
-        className="modalCard responsiveModalCard"
-        onMouseDown={(e) => e.stopPropagation()}
-      >
+      <div className="modalCard responsiveModalCard" onMouseDown={(e) => e.stopPropagation()}>
         <div className="modalHeader">
-          <h2 className="modalTitleText">{title}</h2>
-          <button className="closeBtn" onClick={onClose} aria-label="Close">
-            ✕
-          </button>
+          <div>
+            <p className="modalKicker">Blue Giant</p>
+            <h2 className="modalTitleText">{title}</h2>
+          </div>
+          <button className="closeBtn" onClick={onClose} aria-label="Close">✕</button>
         </div>
         <div className="modalBody">{children}</div>
       </div>
@@ -60,94 +58,47 @@ function Field({ label, value, onChange, placeholder, type = "text" }) {
 }
 
 function AddSiteModal({ onClose, onSuccess }) {
-  const [form, setForm] = useState({
-    site_name: "",
-    site_code: "",
-    location: "",
-    is_active: true,
-  });
-
-  const [error, setError] = useState("");
+  const [form, setForm]       = useState({ site_name: "", site_code: "", location: "", is_active: true });
+  const [error, setError]     = useState("");
   const [loading, setLoading] = useState(false);
 
-  function updateField(key, value) {
-    setForm((prev) => ({ ...prev, [key]: value }));
-  }
+  const updateField = (key, value) => setForm((prev) => ({ ...prev, [key]: value }));
 
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
-
     if (!form.site_name.trim() || !form.location.trim()) {
       setError("Site name and location are required.");
       return;
     }
-
     try {
       setLoading(true);
-
-      const res = await fetch(`${API_BASE}/sites`, {
+      const res  = await fetch(`${API_BASE}/sites`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          ...getAuthHeaders(),
-        },
+        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
         body: JSON.stringify(form),
       });
-
       const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.message || "Failed to create site");
-        return;
-      }
-
-      onSuccess();
-      onClose();
-    } catch {
-      setError("Server error");
-    } finally {
-      setLoading(false);
-    }
+      if (!res.ok) { setError(data.message || "Failed to create site"); return; }
+      onSuccess(); onClose();
+    } catch { setError("Server error"); }
+    finally { setLoading(false); }
   }
 
   return (
-    <ModalWrapper title="Add Site" onClose={onClose}>
+    <ModalWrapper title="Add New Site" onClose={onClose}>
       <form onSubmit={handleSubmit}>
-        <Field
-          label="Site Name"
-          value={form.site_name}
-          placeholder="e.g., Loading Dock Sensors"
-          onChange={(e) => updateField("site_name", e.target.value)}
-        />
-
-        <Field
-          label="Site Code"
-          value={form.site_code}
-          placeholder="e.g., SITE-001"
-          onChange={(e) => updateField("site_code", e.target.value)}
-        />
-
-        <Field
-          label="Location"
-          value={form.location}
-          placeholder="e.g., Section A - Loading Dock"
-          onChange={(e) => updateField("location", e.target.value)}
-        />
-
+        <Field label="Site Name" value={form.site_name} placeholder="e.g., Loading Dock Sensors"
+          onChange={(e) => updateField("site_name", e.target.value)} />
+        <Field label="Site Code" value={form.site_code} placeholder="e.g., SITE-001"
+          onChange={(e) => updateField("site_code", e.target.value)} />
+        <Field label="Location"  value={form.location}  placeholder="e.g., Section A - Loading Dock"
+          onChange={(e) => updateField("location", e.target.value)} />
         {error && <div className="formError">{error}</div>}
-
         <div className="modalActions">
-          <button
-            type="button"
-            className="btnSecondary"
-            onClick={onClose}
-            disabled={loading}
-          >
-            Cancel
-          </button>
+          <button type="button" className="btnSecondary" onClick={onClose} disabled={loading}>Cancel</button>
           <button type="submit" className="btnPrimary" disabled={loading}>
-            {loading ? "Creating..." : "Create"}
+            {loading ? "Creating…" : "Create Site"}
           </button>
         </div>
       </form>
@@ -156,133 +107,62 @@ function AddSiteModal({ onClose, onSuccess }) {
 }
 
 function EditSiteModal({ site, onClose, onSuccess }) {
-  const [form, setForm] = useState({
-    site_name: site.site_name || "",
-    site_code: site.site_code || "",
-    location: site.location || "",
-    is_active: !!site.is_active,
+  const [form, setForm]       = useState({
+    site_name: site.site_name || "", site_code: site.site_code || "",
+    location: site.location || "", is_active: !!site.is_active,
   });
-
-  const [error, setError] = useState("");
+  const [error, setError]     = useState("");
   const [loading, setLoading] = useState(false);
 
-  function updateField(key, value) {
-    setForm((prev) => ({ ...prev, [key]: value }));
-  }
+  const updateField = (key, value) => setForm((prev) => ({ ...prev, [key]: value }));
 
   async function handleSave() {
     setError("");
-
-    if (
-      !form.site_name.trim() ||
-      !form.location.trim() ||
-      !form.site_code.trim()
-    ) {
+    if (!form.site_name.trim() || !form.site_code.trim() || !form.location.trim()) {
       setError("Site name, code and location are required.");
       return;
     }
-
     try {
       setLoading(true);
-
-      const res = await fetch(`${API_BASE}/sites/${site.site_id}`, {
+      const res  = await fetch(`${API_BASE}/sites/${site.site_id}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          ...getAuthHeaders(),
-        },
+        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
         body: JSON.stringify(form),
       });
-
       const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.message || "Update failed");
-        return;
-      }
-
-      onSuccess();
-      onClose();
-    } catch {
-      setError("Server error");
-    } finally {
-      setLoading(false);
-    }
+      if (!res.ok) { setError(data.message || "Update failed"); return; }
+      onSuccess(); onClose();
+    } catch { setError("Server error"); }
+    finally { setLoading(false); }
   }
 
   async function handleDelete() {
-    setError("");
     if (!confirm("Delete this site?")) return;
-
     try {
       setLoading(true);
-
       const res = await fetch(`${API_BASE}/sites/${site.site_id}`, {
-        method: "DELETE",
-        headers: { ...getAuthHeaders() },
+        method: "DELETE", headers: { ...getAuthHeaders() },
       });
-
-      if (!res.ok) {
-        setError("Delete failed");
-        return;
-      }
-
-      onSuccess();
-      onClose();
-    } catch {
-      setError("Server error");
-    } finally {
-      setLoading(false);
-    }
+      if (!res.ok) { setError("Delete failed"); return; }
+      onSuccess(); onClose();
+    } catch { setError("Server error"); }
+    finally { setLoading(false); }
   }
 
   return (
     <ModalWrapper title="Edit Site" onClose={onClose}>
-      <Field
-        label="Site Name"
-        value={form.site_name}
-        onChange={(e) => updateField("site_name", e.target.value)}
-      />
-      <Field
-        label="Site Code"
-        value={form.site_code}
-        onChange={(e) => updateField("site_code", e.target.value)}
-      />
-      <Field
-        label="Location"
-        value={form.location}
-        placeholder="e.g., Section A - Loading Dock"
-        onChange={(e) => updateField("location", e.target.value)}
-      />
-
+      <Field label="Site Name" value={form.site_name} onChange={(e) => updateField("site_name", e.target.value)} />
+      <Field label="Site Code" value={form.site_code} onChange={(e) => updateField("site_code", e.target.value)} />
+      <Field label="Location"  value={form.location}  onChange={(e) => updateField("location",  e.target.value)} />
       {error && <div className="formError">{error}</div>}
-
       <div className="modalActions between">
-        <button
-          className="btnDanger"
-          type="button"
-          onClick={handleDelete}
-          disabled={loading}
-        >
-          {loading ? "Processing..." : "Delete"}
+        <button className="btnDanger" type="button" onClick={handleDelete} disabled={loading}>
+          {loading ? "Processing…" : "Delete"}
         </button>
-
         <div className="rightActions">
-          <button
-            className="btnSecondary"
-            type="button"
-            onClick={onClose}
-            disabled={loading}
-          >
-            Cancel
-          </button>
-          <button
-            className="btnPrimary"
-            type="button"
-            onClick={handleSave}
-            disabled={loading}
-          >
-            {loading ? "Saving..." : "Save"}
+          <button className="btnSecondary" type="button" onClick={onClose} disabled={loading}>Cancel</button>
+          <button className="btnPrimary"   type="button" onClick={handleSave} disabled={loading}>
+            {loading ? "Saving…" : "Save Changes"}
           </button>
         </div>
       </div>
@@ -290,169 +170,141 @@ function EditSiteModal({ site, onClose, onSuccess }) {
   );
 }
 
+/* ═══════════════════════════════════════
+   MAIN PAGE
+═══════════════════════════════════════ */
 export default function SitesPage() {
-  const [sites, setSites] = useState([]);
-  const [devices, setDevices] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [showAdd, setShowAdd] = useState(false);
+  const [sites, setSites]       = useState([]);
+  const [devices, setDevices]   = useState([]);
+  const [loading, setLoading]   = useState(true);
+  const [showAdd, setShowAdd]   = useState(false);
   const [editSite, setEditSite] = useState(null);
   const [refreshKey, setRefreshKey] = useState(0);
 
   const pathname = usePathname();
 
-  function getDeviceCount(siteId) {
-    return devices.filter((d) => Number(d.site_id) === Number(siteId)).length;
-  }
+  const getDeviceCount = (siteId) =>
+    devices.filter((d) => Number(d.site_id) === Number(siteId)).length;
 
-  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
     let cancelled = false;
-
     async function loadPageData() {
       setLoading(true);
-
       try {
         const [sitesRes, devicesRes] = await Promise.all([
-          fetch(`${API_BASE}/sites`, {
-            headers: { ...getAuthHeaders() },
-          }),
-          fetch(`${API_BASE}/devices`, {
-            headers: { ...getAuthHeaders() },
-          }),
+          fetch(`${API_BASE}/sites`,   { headers: { ...getAuthHeaders() } }),
+          fetch(`${API_BASE}/devices`, { headers: { ...getAuthHeaders() } }),
         ]);
-
-        const [sitesData, devicesData] = await Promise.all([
-          sitesRes.json(),
-          devicesRes.json(),
-        ]);
-
+        const [sitesData, devicesData] = await Promise.all([sitesRes.json(), devicesRes.json()]);
         if (!cancelled) {
-          setSites(Array.isArray(sitesData) ? sitesData : []);
+          setSites(Array.isArray(sitesData)   ? sitesData   : []);
           setDevices(Array.isArray(devicesData) ? devicesData : []);
-          setLoading(false);
         }
       } catch {
-        if (!cancelled) {
-          setSites([]);
-          setDevices([]);
-          setLoading(false);
-        }
+        if (!cancelled) { setSites([]); setDevices([]); }
+      } finally {
+        if (!cancelled) setLoading(false);
       }
     }
-
     loadPageData();
-
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, [pathname, refreshKey]);
 
-  const totalSites = sites.length;
-
-  const activeSites = useMemo(
-    () => sites.filter((s) => !!s.is_active).length,
-    [sites]
+  const totalSites      = sites.length;
+  const activeSites     = useMemo(() => sites.filter((s) => !!s.is_active).length, [sites]);
+  const totalDevices    = devices.length;
+  const sitesWithDevices = useMemo(
+    () => sites.filter((site) => devices.some((d) => Number(d.site_id) === Number(site.site_id))).length,
+    [sites, devices]
   );
-
-  const totalDevices = devices.length;
-
-  const sitesWithDevices = useMemo(() => {
-    return sites.filter((site) =>
-      devices.some((device) => Number(device.site_id) === Number(site.site_id))
-    ).length;
-  }, [sites, devices]);
 
   return (
     <AppShell active="sites">
       <div className="sitesPage responsivePage">
-        <div className="sitesHeader responsiveHeader">
-          <div>
-            <h1 className="pageTitle">
-              <span className="pageTitleIcon">
-                <MonoIcon className="pageTitleGlyph">
-                  <path d="M12 21s6-4.7 6-10a6 6 0 10-12 0c0 5.3 6 10 6 10z" />
-                  <circle cx="12" cy="11" r="2.2" />
-                </MonoIcon>
-              </span>
-              Site Management
-            </h1>
-            <p className="subtitle responsiveSubtitle">
-              Manage locations where devices are deployed.
-            </p>
+
+        {/* ───── HERO (no button here) ───── */}
+        <section className="sitesHero">
+          <p className="sitesKicker">Infrastructure Control</p>
+          <div className="sitesHeroTop">
+            <div>
+              <h1 className="sitesHeroTitle">Site Management</h1>
+              <p className="sitesHeroText">
+                Manage deployment locations, monitor operational coverage, and keep every connected device mapped to the right site.
+              </p>
+            </div>
           </div>
-        </div>
+          <div className="sitesHeroRail" />
+        </section>
 
         <div className="s-stack responsiveStack">
-          <section className="cards responsiveCards responsiveSection">
-            <div className="card">
-              <div className="cardIcon">
+
+          {/* ───── STAT CARDS ───── */}
+          <section className="siteCards responsiveSection" aria-label="Site statistics">
+
+            <div className="siteCard">
+              <div className="siteCardIcon">
                 <MonoIcon>
                   <path d="M12 21s6-4.7 6-10a6 6 0 10-12 0c0 5.3 6 10 6 10z" />
                   <circle cx="12" cy="11" r="2.2" />
                 </MonoIcon>
               </div>
-              <div className="cardContent">
-                <div className="cardValue">{totalSites}</div>
-                <div className="cardLabel">Total Sites</div>
+              <div>
+                <div className="siteCardValue">{totalSites}</div>
+                <div className="siteCardLabel">Total Sites</div>
               </div>
             </div>
 
-            <div className="card">
-              <div className="cardIcon">
-                <MonoIcon>
-                  <circle cx="12" cy="12" r="8" />
-                </MonoIcon>
+            <div className="siteCard">
+              <div className="siteCardIcon">
+                <MonoIcon><circle cx="12" cy="12" r="8" /></MonoIcon>
               </div>
-              <div className="cardContent">
-                <div className="cardValue">{activeSites}</div>
-                <div className="cardLabel">Active Sites</div>
+              <div>
+                <div className="siteCardValue">{activeSites}</div>
+                <div className="siteCardLabel">Active Sites</div>
               </div>
             </div>
 
-            <div className="card">
-              <div className="cardIcon">
+            <div className="siteCard">
+              <div className="siteCardIcon">
                 <MonoIcon>
                   <rect x="3" y="4" width="18" height="12" rx="2" />
-                  <path d="M8 20h8" />
-                  <path d="M12 16v4" />
+                  <path d="M8 20h8" /><path d="M12 16v4" />
                 </MonoIcon>
               </div>
-              <div className="cardContent">
-                <div className="cardValue">{totalDevices}</div>
-                <div className="cardLabel">Total Devices</div>
+              <div>
+                <div className="siteCardValue">{totalDevices}</div>
+                <div className="siteCardLabel">Total Devices</div>
               </div>
             </div>
 
-            <div className="card">
-              <div className="cardIcon">
+            <div className="siteCard">
+              <div className="siteCardIcon">
                 <MonoIcon>
                   <path d="M3 21h18" />
                   <path d="M5 21V9l6 3V9l8-4v16" />
                 </MonoIcon>
               </div>
-              <div className="cardContent">
-                <div className="cardValue">{sitesWithDevices}</div>
-                <div className="cardLabel">Sites With Devices</div>
+              <div>
+                <div className="siteCardValue">{sitesWithDevices}</div>
+                <div className="siteCardLabel">Sites With Devices</div>
               </div>
             </div>
+
           </section>
 
-          <section className="panel responsivePanel responsiveSection">
-            <div className="panelHeader">
-              <h2>Sites</h2>
+          {/* ───── TABLE PANEL ───── */}
+          <section className="sitePanel responsiveSection">
 
-              <div className="panelHeaderActions responsiveActions">
-                <button
-                  className="topEditBtn"
-                  onClick={() => setShowAdd(true)}
-                >
-                  Add Site
-                </button>
-              </div>
+            {/* Button lives HERE, right side of panel header */}
+            <div className="sitePanelHead">
+              <h2>Operational Sites</h2>
+              <button className="addSiteBtn" onClick={() => setShowAdd(true)}>
+                + Add Site
+              </button>
             </div>
 
-            <div className="tableWrap responsiveTableWrap">
-              <table className="table responsiveTable">
+            <div className="siteTableWrap">
+              <table className="siteTable">
                 <thead>
                   <tr>
                     <th>Site Code</th>
@@ -463,35 +315,41 @@ export default function SitesPage() {
                     <th>Actions</th>
                   </tr>
                 </thead>
-
                 <tbody>
                   {loading ? (
                     <tr>
-                      <td colSpan="6" style={{ textAlign: "center", padding: 20 }}>
-                        Loading sites...
+                      <td colSpan="6">
+                        <div className="siteEmptyState">
+                          <div className="siteEmptyIcon">⏳</div>
+                          <p>Loading sites…</p>
+                        </div>
                       </td>
                     </tr>
                   ) : sites.length === 0 ? (
                     <tr>
-                      <td colSpan="6" style={{ textAlign: "center", padding: 20 }}>
-                        No sites found.
+                      <td colSpan="6">
+                        <div className="siteEmptyState">
+                          <div className="siteEmptyIcon">📍</div>
+                          <p>No sites found. Add one to get started.</p>
+                        </div>
                       </td>
                     </tr>
                   ) : (
                     sites.map((s) => (
                       <tr key={s.site_id}>
-                        <td>{s.site_code}</td>
-                        <td className="strong">{s.site_name}</td>
-                        <td>{s.location || "-"}</td>
-                        <td>{s.technician_name || "-"}</td>
-                        <td>{getDeviceCount(s.site_id)}</td>
-                        <td>
-                          <button
-                            className="siteEditBtn"
-                            onClick={() => setEditSite(s)}
-                          >
-                            Edit
-                          </button>
+                        <td data-label="Site Code">
+                          <span className="siteCodeTag">{s.site_code || "—"}</span>
+                        </td>
+                        <td data-label="Site Name">
+                          <span className="siteNameCell">{s.site_name}</span>
+                        </td>
+                        <td data-label="Location">{s.location || "—"}</td>
+                        <td data-label="Technician">{s.technician_name || "—"}</td>
+                        <td data-label="Devices">
+                          <span className="siteDevCount">{getDeviceCount(s.site_id)}</span>
+                        </td>
+                        <td data-label="Actions">
+                          <button className="siteEditBtn" onClick={() => setEditSite(s)}>Edit</button>
                         </td>
                       </tr>
                     ))
@@ -501,9 +359,10 @@ export default function SitesPage() {
             </div>
           </section>
 
-          <footer className="footer responsiveFooter">
+          <footer className="siteFooter responsiveFooter">
             © {new Date().getFullYear()} Blue Giant Equipment Corporation
           </footer>
+
         </div>
 
         {showAdd && (
@@ -520,6 +379,7 @@ export default function SitesPage() {
             onSuccess={() => setRefreshKey((k) => k + 1)}
           />
         )}
+
       </div>
     </AppShell>
   );

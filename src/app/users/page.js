@@ -7,44 +7,25 @@ import "@/app/styles/responsive.css";
 import AppShell from "../components/appNavHead";
 import { API_BASE, getAuthHeaders } from "@/lib/apiBase";
 
-function MonoIcon({ children, className = "userGlyph" }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      className={className}
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      {children}
-    </svg>
-  );
-}
-
 function validatePassword(password) {
-  const minLength = password.length >= 8;
-  const hasUpper = /[A-Z]/.test(password);
-  const hasLower = /[a-z]/.test(password);
-  const hasNumber = /[0-9]/.test(password);
-
-  return minLength && hasUpper && hasLower && hasNumber;
+  return (
+    password.length >= 8 &&
+    /[A-Z]/.test(password) &&
+    /[a-z]/.test(password) &&
+    /[0-9]/.test(password)
+  );
 }
 
 function ModalWrapper({ title, children, onClose }) {
   return (
     <div className="modalOverlay" onMouseDown={onClose}>
-      <div
-        className="modalCard responsiveModalCard"
-        onMouseDown={(e) => e.stopPropagation()}
-      >
+      <div className="modalCard responsiveModalCard" onMouseDown={(e) => e.stopPropagation()}>
         <div className="modalHeader">
-          <h2 className="modalTitleText">{title}</h2>
-          <button className="closeBtn" onClick={onClose} aria-label="Close">
-            ✕
-          </button>
+          <div>
+            <p className="modalKicker">Blue Giant</p>
+            <h2 className="modalTitleText">{title}</h2>
+          </div>
+          <button className="closeBtn" onClick={onClose} aria-label="Close">✕</button>
         </div>
         <div className="modalBody">{children}</div>
       </div>
@@ -52,40 +33,17 @@ function ModalWrapper({ title, children, onClose }) {
   );
 }
 
-function Input({ label, type = "text", value, onChange, disabled = false }) {
-  const isEmail = label === "Email";
-  const isPassword = label === "Password";
-
+function Field({ label, value, onChange, type = "text", disabled = false }) {
   return (
-    <div className="fieldRow">
-      <div className="fieldIcon">
-        {isEmail ? (
-          <MonoIcon>
-            <path d="M4 6h16v12H4z" />
-            <path d="M4 8l8 6 8-6" />
-          </MonoIcon>
-        ) : isPassword ? (
-          <MonoIcon>
-            <rect x="5" y="11" width="14" height="9" rx="2" />
-            <path d="M8 11V8a4 4 0 018 0v3" />
-          </MonoIcon>
-        ) : (
-          <MonoIcon>
-            <circle cx="12" cy="8" r="3.5" />
-            <path d="M5 20c0-3.3 3-6 7-6s7 2.7 7 6" />
-          </MonoIcon>
-        )}
-      </div>
-      <div className="field">
-        <label className="label">{label}</label>
-        <input
-          className="input"
-          type={type}
-          value={value}
-          onChange={onChange}
-          disabled={disabled}
-        />
-      </div>
+    <div className="field">
+      <label className="label">{label}</label>
+      <input
+        className="input"
+        type={type}
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
+      />
     </div>
   );
 }
@@ -123,32 +81,23 @@ function RoleStatusFields({ form, updateField }) {
 
 function AddUserModal({ onClose, onSuccess, existingUsers }) {
   const [form, setForm] = useState({
-    // user_id: "",
     name: "",
     email: "",
     password: "",
     role_id: 2,
     is_active: true,
   });
-
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  function updateField(key, value) {
-    setForm((prev) => ({ ...prev, [key]: value }));
-  }
+  const updateField = (key, value) => setForm((prev) => ({ ...prev, [key]: value }));
 
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
 
-    if (
-      // !form.user_id.trim() ||
-      !form.name.trim() ||
-      !form.email.trim() ||
-      !form.password.trim()
-    ) {
-      setError("User ID, name, email, and password are required.");
+    if (!form.name.trim() || !form.email.trim() || !form.password.trim()) {
+      setError("Name, email and password are required.");
       return;
     }
 
@@ -162,15 +111,12 @@ function AddUserModal({ onClose, onSuccess, existingUsers }) {
     }
 
     if (!validatePassword(form.password)) {
-      setError(
-        "Password must be at least 8 characters and include uppercase, lowercase, and a number."
-      );
+      setError("Password must be at least 8 characters and include uppercase, lowercase and a number.");
       return;
     }
 
     try {
       setLoading(true);
-
       const res = await fetch(`${API_BASE}/users`, {
         method: "POST",
         headers: {
@@ -181,7 +127,6 @@ function AddUserModal({ onClose, onSuccess, existingUsers }) {
       });
 
       const data = await res.json();
-
       if (!res.ok) {
         setError(data.message || "Failed to create user");
         return;
@@ -198,50 +143,18 @@ function AddUserModal({ onClose, onSuccess, existingUsers }) {
 
   return (
     <ModalWrapper title="Add User" onClose={onClose}>
-      <form onSubmit={handleSubmit} autoComplete="off">
-        {/* <Input
-          label="User ID"
-          value={form.user_id}
-          onChange={(e) => updateField("user_id", e.target.value)}
-        /> */}
-
-        <Input
-          label="Name"
-          value={form.name}
-          onChange={(e) => updateField("name", e.target.value)}
-        />
-
-        <Input
-          label="Email"
-          value={form.email}
-          onChange={(e) => updateField("email", e.target.value)}
-        />
-
-        <Input
-          label="Password"
-          type="password"
-          value={form.password}
-          onChange={(e) => updateField("password", e.target.value)}
-        />
-
+      <form onSubmit={handleSubmit}>
+        <Field label="Name" value={form.name} onChange={(e) => updateField("name", e.target.value)} />
+        <Field label="Email" value={form.email} onChange={(e) => updateField("email", e.target.value)} />
+        <Field label="Password" type="password" value={form.password} onChange={(e) => updateField("password", e.target.value)} />
         <div className="twoCol responsiveTwoCol">
           <RoleStatusFields form={form} updateField={updateField} />
         </div>
-
         {error && <div className="formError">{error}</div>}
-
         <div className="modalActions">
-          <button
-            type="button"
-            className="btnSecondary"
-            onClick={onClose}
-            disabled={loading}
-          >
-            Cancel
-          </button>
-
+          <button type="button" className="btnSecondary" onClick={onClose}>Cancel</button>
           <button type="submit" className="btnPrimary" disabled={loading}>
-            {loading ? "Creating..." : "Create"}
+            {loading ? "Creating..." : "Create User"}
           </button>
         </div>
       </form>
@@ -250,40 +163,29 @@ function AddUserModal({ onClose, onSuccess, existingUsers }) {
 }
 
 function EditUserModal({ user, onClose, onSuccess }) {
-  const [form, setForm] = useState({
-    role_id: user.role_id,
-    is_active: user.is_active,
-  });
-
+  const [form, setForm] = useState({ role_id: user.role_id, is_active: user.is_active });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  function updateField(key, value) {
-    setForm((prev) => ({ ...prev, [key]: value }));
-  }
+  const updateField = (key, value) => setForm((prev) => ({ ...prev, [key]: value }));
 
   async function handleSave() {
-    setError("");
-
     try {
       setLoading(true);
+      const headers = { "Content-Type": "application/json", ...getAuthHeaders() };
 
-      const commonHeaders = {
-        "Content-Type": "application/json",
-        ...getAuthHeaders(),
-      };
-
-      const roleRes = await fetch(`${API_BASE}/users/${user.user_id}/role`, {
-        method: "PUT",
-        headers: commonHeaders,
-        body: JSON.stringify({ role_id: form.role_id }),
-      });
-
-      const statusRes = await fetch(`${API_BASE}/users/${user.user_id}/status`, {
-        method: "PUT",
-        headers: commonHeaders,
-        body: JSON.stringify({ is_active: form.is_active }),
-      });
+      const [roleRes, statusRes] = await Promise.all([
+        fetch(`${API_BASE}/users/${user.user_id}/role`, {
+          method: "PUT",
+          headers,
+          body: JSON.stringify({ role_id: form.role_id }),
+        }),
+        fetch(`${API_BASE}/users/${user.user_id}/status`, {
+          method: "PUT",
+          headers,
+          body: JSON.stringify({ is_active: form.is_active }),
+        }),
+      ]);
 
       if (!roleRes.ok || !statusRes.ok) {
         setError("Update failed");
@@ -300,12 +202,10 @@ function EditUserModal({ user, onClose, onSuccess }) {
   }
 
   async function handleDelete() {
-    setError("");
-    if (!confirm("Are you sure you want to delete this user?")) return;
+    if (!confirm("Delete this user?")) return;
 
     try {
       setLoading(true);
-
       const res = await fetch(`${API_BASE}/users/${user.user_id}`, {
         method: "DELETE",
         headers: { ...getAuthHeaders() },
@@ -327,41 +227,20 @@ function EditUserModal({ user, onClose, onSuccess }) {
 
   return (
     <ModalWrapper title="Edit User" onClose={onClose}>
-      <Input label="Name" value={user.name} disabled />
-      <Input label="Email" value={user.email} disabled />
-
+      <Field label="Name" value={user.name} disabled />
+      <Field label="Email" value={user.email} disabled />
       <div className="twoCol responsiveTwoCol">
         <RoleStatusFields form={form} updateField={updateField} />
       </div>
-
       {error && <div className="formError">{error}</div>}
-
       <div className="modalActions between">
-        <button
-          className="btnDanger"
-          type="button"
-          onClick={handleDelete}
-          disabled={loading}
-        >
+        <button className="btnDanger" type="button" onClick={handleDelete}>
           {loading ? "Processing..." : "Delete"}
         </button>
-
         <div className="rightActions">
-          <button
-            className="btnSecondary"
-            type="button"
-            onClick={onClose}
-            disabled={loading}
-          >
-            Cancel
-          </button>
-          <button
-            className="btnPrimary"
-            type="button"
-            onClick={handleSave}
-            disabled={loading}
-          >
-            {loading ? "Saving..." : "Save"}
+          <button className="btnSecondary" type="button" onClick={onClose}>Cancel</button>
+          <button className="btnPrimary" type="button" onClick={handleSave}>
+            {loading ? "Saving..." : "Save Changes"}
           </button>
         </div>
       </div>
@@ -376,27 +255,22 @@ export default function UsersPage() {
   const [editUser, setEditUser] = useState(null);
   const [refreshKey, setRefreshKey] = useState(0);
 
-  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
     let cancelled = false;
 
     async function fetchUsers() {
+      setLoading(true);
       try {
         const res = await fetch(`${API_BASE}/users`, {
           headers: { ...getAuthHeaders() },
         });
 
         const data = await res.json();
-
-        if (!cancelled) {
-          setUsers(Array.isArray(data) ? data : []);
-          setLoading(false);
-        }
+        if (!cancelled) setUsers(Array.isArray(data) ? data : []);
       } catch {
-        if (!cancelled) {
-          setUsers([]);
-          setLoading(false);
-        }
+        if (!cancelled) setUsers([]);
+      } finally {
+        if (!cancelled) setLoading(false);
       }
     }
 
@@ -413,51 +287,31 @@ export default function UsersPage() {
     [users]
   );
 
-  function getRoleLabel(role_id) {
-    if (role_id === 1) return "Admin";
-    if (role_id === 2) return "Technician";
-    return "User";
-  }
-
-  function getStatusClass(is_active) {
-    return is_active ? "pill success" : "pill failed";
-  }
-
-  function getStatusLabel(is_active) {
-    return is_active ? "Active" : "Inactive";
-  }
+  const getRoleLabel = (roleId) =>
+    roleId === 1 ? "Admin" : roleId === 2 ? "Technician" : "User";
 
   return (
     <AppShell active="users">
       <div className="usersPage responsivePage">
-        <div className="usersHeader responsiveHeader">
-          <div>
-            <h1 className="pageTitle">
-              <span className="pageTitleIcon">
-                <MonoIcon className="pageTitleGlyph">
-                  <circle cx="9" cy="8" r="2.8" />
-                  <circle cx="16.5" cy="9.5" r="2.2" />
-                  <path d="M4.5 19c0-3 2.3-5 5.5-5s5.5 2 5.5 5" />
-                  <path d="M14 19c.1-1.9 1.4-3.4 3.5-3.9" />
-                </MonoIcon>
-              </span>
-              User Management
-            </h1>
-            <p className="subtitle responsiveSubtitle">
-              Manage technician access across the platform.
-            </p>
+        <section className="userHero">
+          <p className="userKicker">Access Control</p>
+          <div className="userHeroTop">
+            <div>
+              <h1 className="userHeroTitle">User Management</h1>
+              <p className="userHeroText">
+                Manage technician access, assign platform roles, and control active user permissions across Blue Giant systems.
+              </p>
+            </div>
+            <button className="topEditBtn" onClick={() => setShowAdd(true)}>
+              + Add User
+            </button>
           </div>
-        </div>
+          <div className="userHeroRail" />
+        </section>
 
         <div className="responsiveStack">
-          <section className="cards twoCol responsiveCards responsiveSection">
+          <section className="cards responsiveCards responsiveSection">
             <div className="card">
-              <div className="cardIcon">
-                <MonoIcon>
-                  <circle cx="12" cy="8" r="3.5" />
-                  <path d="M5 20c0-3.3 3-6 7-6s7 2.7 7 6" />
-                </MonoIcon>
-              </div>
               <div className="cardContent">
                 <div className="cardValue">{totalUsers}</div>
                 <div className="cardLabel">Total Users</div>
@@ -465,27 +319,16 @@ export default function UsersPage() {
             </div>
 
             <div className="card">
-              <div className="cardIcon">
-                <MonoIcon>
-                  <circle cx="12" cy="12" r="3" />
-                  <path d="M19.4 15a1 1 0 00.2 1.1l.1.1a1 1 0 010 1.4l-1.3 1.3a1 1 0 01-1.4 0l-.1-.1a1 1 0 00-1.1-.2 1 1 0 00-.6.9V20a1 1 0 01-1 1h-1.8a1 1 0 01-1-1v-.2a1 1 0 00-.6-.9 1 1 0 00-1.1.2l-.1.1a1 1 0 01-1.4 0L4.9 18a1 1 0 010-1.4l.1-.1a1 1 0 00.2-1.1 1 1 0 00-.9-.6H4a1 1 0 01-1-1V12a1 1 0 011-1h.2a1 1 0 00.9-.6 1 1 0 00-.2-1.1l-.1-.1a1 1 0 010-1.4L6.1 6a1 1 0 011.4 0l.1.1a1 1 0 001.1.2 1 1 0 00.6-.9V5a1 1 0 011-1h1.8a1 1 0 011 1v.2a1 1 0 00.6.9 1 1 0 001.1-.2l.1-.1a1 1 0 011.4 0l1.3 1.3a1 1 0 010 1.4l-.1.1a1 1 0 00-.2 1.1 1 1 0 00.9.6h.2a1 1 0 011 1v1.8a1 1 0 01-1 1h-.2a1 1 0 00-.9.6z" />
-                </MonoIcon>
-              </div>
               <div className="cardContent">
                 <div className="cardValue">{technicians}</div>
-                <div className="cardLabel">Total Technicians</div>
+                <div className="cardLabel">Technicians</div>
               </div>
             </div>
           </section>
 
           <section className="panel responsivePanel responsiveSection">
             <div className="panelHeader">
-              <h2>Users</h2>
-              <div className="panelHeaderActions responsiveActions">
-                <button className="topEditBtn" onClick={() => setShowAdd(true)}>
-                  Add User
-                </button>
-              </div>
+              <h2>Platform Users</h2>
             </div>
 
             <div className="tableWrap responsiveTableWrap">
@@ -499,33 +342,28 @@ export default function UsersPage() {
                     <th>Actions</th>
                   </tr>
                 </thead>
-
                 <tbody>
                   {loading ? (
                     <tr>
-                      <td colSpan="5" style={{ textAlign: "center", padding: 20 }}>
-                        Loading users...
-                      </td>
+                      <td colSpan="5" className="tableMessage">Loading users...</td>
                     </tr>
                   ) : users.length === 0 ? (
                     <tr>
-                      <td colSpan="5" style={{ textAlign: "center", padding: 20 }}>
-                        No users found.
-                      </td>
+                      <td colSpan="5" className="tableMessage">No users found.</td>
                     </tr>
                   ) : (
                     users.map((u) => (
                       <tr key={u.user_id}>
-                        <td>{u.name}</td>
+                        <td className="strong">{u.name}</td>
                         <td>{u.email}</td>
                         <td>{getRoleLabel(u.role_id)}</td>
                         <td>
-                          <span className={getStatusClass(u.is_active)}>
-                            {getStatusLabel(u.is_active)}
+                          <span className={u.is_active ? "pill success" : "pill failed"}>
+                            {u.is_active ? "Active" : "Inactive"}
                           </span>
                         </td>
                         <td>
-                          <button className="editBtn" onClick={() => setEditUser(u)}>
+                          <button className="siteEditBtn" onClick={() => setEditUser(u)}>
                             Edit
                           </button>
                         </td>
