@@ -26,17 +26,13 @@
 }
 
 .userHero::before {
-  width: 240px;
-  height: 240px;
-  top: -60px;
-  right: -50px;
+  width: 240px; height: 240px;
+  top: -60px; right: -50px;
 }
 
 .userHero::after {
-  width: 180px;
-  height: 180px;
-  bottom: -70px;
-  right: 120px;
+  width: 180px; height: 180px;
+  bottom: -70px; right: 120px;
 }
 
 .userKicker {
@@ -53,15 +49,14 @@
 
 .userKicker::before {
   content: "";
-  width: 20px;
-  height: 2px;
+  width: 20px; height: 2px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.55);
 }
 
 .userHeroTop {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: flex-start;
   gap: 18px;
 }
@@ -91,7 +86,27 @@
   background: linear-gradient(90deg, rgba(255,255,255,0.9), rgba(255,255,255,0.15));
 }
 
-/* ================= STAT CARDS — full-width stretch ================= */
+/* ================= HERO BUTTON ================= */
+.topEditBtn {
+  border-radius: 14px;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.topEditBtn:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* ================= STAT CARDS — matching Sites page exactly ================= */
 
 .userCards {
   display: grid;
@@ -104,14 +119,14 @@
   background: #ffffff;
   border: 1px solid rgba(0, 86, 150, 0.10);
   border-radius: 16px;
-  padding: 24px 28px;
+  padding: 20px 22px;
   box-shadow: 0 2px 12px rgba(0, 56, 110, 0.06);
   position: relative;
   overflow: hidden;
   transition: box-shadow 0.2s ease, transform 0.2s ease;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
 }
 
 .userCard::before {
@@ -128,20 +143,42 @@
   transform: translateY(-2px);
 }
 
+/* Icon box — identical to Sites page .siteCardIcon */
+.userCardIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  background: #e6f1fa;
+  color: #005696;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.userCardGlyph {
+  width: 20px;
+  height: 20px;
+  color: #005696;
+}
+
+/* Big number */
 .userCardValue {
-  font-size: 40px;
+  font-size: 36px;
   font-weight: 900;
   color: #003f6e;
   line-height: 1;
-  letter-spacing: -2px;
+  letter-spacing: -1.5px;
 }
 
+/* Label */
 .userCardLabel {
   font-size: 12px;
   font-weight: 700;
   color: #64748b;
   text-transform: uppercase;
   letter-spacing: 0.06em;
+  margin-top: 2px;
 }
 
 /* ================= PANEL / TABLE ================= */
@@ -172,7 +209,7 @@
   letter-spacing: -0.2px;
 }
 
-/* ================= ADD USER BUTTON (inside panel header) ================= */
+/* Add User button inside panel header */
 .addUserBtn {
   display: inline-flex;
   align-items: center;
@@ -233,7 +270,6 @@
 }
 
 .table tr:last-child td { border-bottom: none; }
-
 .table tbody tr { transition: background 0.15s ease; }
 .table tbody tr:hover { background: #f8fbff; }
 
@@ -442,7 +478,6 @@
 }
 
 .modalActions.between { justify-content: space-between; }
-
 .rightActions { display: flex; gap: 10px; }
 
 /* ================= BUTTONS ================= */
@@ -505,40 +540,35 @@
 }
 
 /* ================= RESPONSIVE ================= */
+@media (max-width: 900px) {
+  .userHeroTop { flex-direction: column; align-items: flex-start; }
+}
+
 @media (max-width: 820px) {
   .panelHeader { flex-wrap: wrap; }
   .addUserBtn { width: 100%; justify-content: center; }
 }
 
 @media (max-width: 640px) {
-  .userCards { grid-template-columns: 1fr; }
+  .userCards { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .userCardValue { font-size: 28px; }
   .twoCol { grid-template-columns: 1fr; gap: 0; }
 
   .modalActions,
   .modalActions.between,
-  .rightActions {
-    flex-direction: column;
-    width: 100%;
-  }
+  .rightActions { flex-direction: column; width: 100%; }
 
   .btnPrimary,
   .btnSecondary,
   .btnDanger { width: 100%; }
 }
 
-/* ── Mobile card-style table ── */
-@media (max-width: 640px) {
-  /* Kill the min-width so the table can collapse */
+@media (max-width: 520px) {
+  .tableWrap { overflow-x: visible; padding: 12px; }
   .table { min-width: 0 !important; width: 100%; }
-
-  /* Hide header row */
   .table thead { display: none; }
+  .table, .table tbody { display: block; width: 100%; }
 
-  /* Make table, tbody, tr, td all block */
-  .table,
-  .table tbody { display: block; width: 100%; }
-
-  /* Each row becomes a card */
   .table tr {
     display: block;
     border: 1px solid rgba(0, 86, 150, 0.12);
@@ -551,7 +581,6 @@
     box-sizing: border-box;
   }
 
-  /* Each cell becomes a label+value row */
   .table td {
     display: flex;
     justify-content: space-between;
@@ -566,7 +595,6 @@
 
   .table td:last-child { border-bottom: none; }
 
-  /* Label pseudo-element */
   .table td::before {
     content: attr(data-label);
     font-size: 11px;
@@ -577,11 +605,5 @@
     text-align: left;
     flex-shrink: 0;
     white-space: nowrap;
-  }
-
-  /* Wrap the tableWrap so it doesn't scroll horizontally */
-  .tableWrap {
-    overflow-x: visible;
-    padding: 12px;
   }
 }
