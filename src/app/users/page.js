@@ -16,6 +16,17 @@ function validatePassword(password) {
   );
 }
 
+/* ─── Icon helper (same pattern as Sites page) ─── */
+function UserIcon({ children, className = "userCardGlyph" }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none"
+      stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+      strokeLinejoin="round" aria-hidden="true">
+      {children}
+    </svg>
+  );
+}
+
 function ModalWrapper({ title, children, onClose }) {
   return (
     <div className="modalOverlay" onMouseDown={onClose}>
@@ -37,13 +48,7 @@ function Field({ label, value, onChange, type = "text", disabled = false }) {
   return (
     <div className="field">
       <label className="label">{label}</label>
-      <input
-        className="input"
-        type={type}
-        value={value}
-        onChange={onChange}
-        disabled={disabled}
-      />
+      <input className="input" type={type} value={value} onChange={onChange} disabled={disabled} />
     </div>
   );
 }
@@ -53,24 +58,17 @@ function RoleStatusFields({ form, updateField }) {
     <>
       <div className="field">
         <label className="label">Role</label>
-        <select
-          className="select"
-          value={form.role_id}
-          onChange={(e) => updateField("role_id", Number(e.target.value))}
-        >
+        <select className="select" value={form.role_id}
+          onChange={(e) => updateField("role_id", Number(e.target.value))}>
           <option value={1}>Admin</option>
           <option value={2}>Technician</option>
           <option value={3}>User</option>
         </select>
       </div>
-
       <div className="field">
         <label className="label">Status</label>
-        <select
-          className="select"
-          value={form.is_active ? "active" : "inactive"}
-          onChange={(e) => updateField("is_active", e.target.value === "active")}
-        >
+        <select className="select" value={form.is_active ? "active" : "inactive"}
+          onChange={(e) => updateField("is_active", e.target.value === "active")}>
           <option value="active">Active</option>
           <option value="inactive">Inactive</option>
         </select>
@@ -80,36 +78,26 @@ function RoleStatusFields({ form, updateField }) {
 }
 
 function AddUserModal({ onClose, onSuccess, existingUsers }) {
-  const [form, setForm] = useState({
-    name: "", email: "", password: "", role_id: 2, is_active: true,
-  });
+  const [form, setForm]       = useState({ name: "", email: "", password: "", role_id: 2, is_active: true });
   const [error, setError]     = useState("");
   const [loading, setLoading] = useState(false);
-
   const updateField = (key, value) => setForm((prev) => ({ ...prev, [key]: value }));
 
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
-
     if (!form.name.trim() || !form.email.trim() || !form.password.trim()) {
-      setError("Name, email and password are required.");
-      return;
+      setError("Name, email and password are required."); return;
     }
-
     if (existingUsers.some((u) => u.email.toLowerCase() === form.email.toLowerCase())) {
-      setError("Email already exists.");
-      return;
+      setError("Email already exists."); return;
     }
-
     if (!validatePassword(form.password)) {
-      setError("Password must be at least 8 characters and include uppercase, lowercase and a number.");
-      return;
+      setError("Password must be at least 8 characters and include uppercase, lowercase and a number."); return;
     }
-
     try {
       setLoading(true);
-      const res = await fetch(`${API_BASE}/users`, {
+      const res  = await fetch(`${API_BASE}/users`, {
         method: "POST",
         headers: { "Content-Type": "application/json", ...getAuthHeaders() },
         body: JSON.stringify(form),
@@ -146,7 +134,6 @@ function EditUserModal({ user, onClose, onSuccess }) {
   const [form, setForm]       = useState({ role_id: user.role_id, is_active: user.is_active });
   const [error, setError]     = useState("");
   const [loading, setLoading] = useState(false);
-
   const updateField = (key, value) => setForm((prev) => ({ ...prev, [key]: value }));
 
   async function handleSave() {
@@ -226,6 +213,8 @@ export default function UsersPage() {
 
   const totalUsers  = users.length;
   const technicians = useMemo(() => users.filter((u) => u.role_id === 2).length, [users]);
+  const admins      = useMemo(() => users.filter((u) => u.role_id === 1).length, [users]);
+  const activeUsers = useMemo(() => users.filter((u) => u.is_active).length, [users]);
 
   const getRoleLabel = (roleId) =>
     roleId === 1 ? "Admin" : roleId === 2 ? "Technician" : "User";
@@ -234,7 +223,7 @@ export default function UsersPage() {
     <AppShell active="users">
       <div className="usersPage responsivePage">
 
-        {/* ───── HERO (no button here) ───── */}
+        {/* ───── HERO ───── */}
         <section className="userHero">
           <p className="userKicker">Access Control</p>
           <div className="userHeroTop">
@@ -244,28 +233,49 @@ export default function UsersPage() {
                 Manage technician access, assign platform roles, and control active user permissions across Blue Giant systems.
               </p>
             </div>
+            <button className="topEditBtn" onClick={() => setShowAdd(true)}>
+              + Add User
+            </button>
           </div>
           <div className="userHeroRail" />
         </section>
 
         <div className="responsiveStack">
 
-          {/* ───── STAT CARDS — full width, 2 columns ───── */}
+          {/* ───── STAT CARDS — same structure as Sites page ───── */}
           <section className="userCards responsiveSection" aria-label="User statistics">
+
             <div className="userCard">
-              <div className="userCardValue">{totalUsers}</div>
-              <div className="userCardLabel">Total Users</div>
+              <div className="userCardIcon">
+                <UserIcon>
+                  <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M23 21v-2a4 4 0 00-3-3.87" />
+                  <path d="M16 3.13a4 4 0 010 7.75" />
+                </UserIcon>
+              </div>
+              <div>
+                <div className="userCardValue">{totalUsers}</div>
+                <div className="userCardLabel">Total Users</div>
+              </div>
             </div>
+
             <div className="userCard">
-              <div className="userCardValue">{technicians}</div>
-              <div className="userCardLabel">Technicians</div>
+              <div className="userCardIcon">
+                <UserIcon>
+                  <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" />
+                </UserIcon>
+              </div>
+              <div>
+                <div className="userCardValue">{technicians}</div>
+                <div className="userCardLabel">Technicians</div>
+              </div>
             </div>
+
           </section>
 
           {/* ───── TABLE PANEL ───── */}
           <section className="panel responsivePanel responsiveSection">
-
-            {/* Button lives HERE, right side of panel header */}
             <div className="panelHeader">
               <h2>Platform Users</h2>
               <button className="addUserBtn" onClick={() => setShowAdd(true)}>
@@ -337,3 +347,4 @@ export default function UsersPage() {
     </AppShell>
   );
 }
+
