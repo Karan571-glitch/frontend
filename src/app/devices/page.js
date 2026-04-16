@@ -74,18 +74,27 @@ function AddDeviceModal({ onClose, onSuccess, sites }) {
     device_name: "", device_code: "", site_id: "",
     device_type: "", status: "active", firmware_version: "",
   });
-  const [error, setError]   = useState("");
+  const [error, setError]     = useState("");
+  const [fieldErrors, setFieldErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
-  function update(k, v) { setForm((p) => ({ ...p, [k]: v })); }
+  function update(k, v) {
+    setForm((p) => ({ ...p, [k]: v }));
+    setFieldErrors((p) => ({ ...p, [k]: "" }));
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
-    if (!form.device_name.trim() || !form.device_code.trim() || !form.site_id) {
-      setError("Device name, code and site are required.");
-      return;
-    }
+    const errs = {};
+    if (!form.device_name.trim()) errs.device_name = "Device name is required.";
+    else if (form.device_name.trim().length < 2) errs.device_name = "Device name must be at least 2 characters.";
+    if (!form.device_code.trim()) errs.device_code = "Device code is required.";
+    else if (!/^[A-Za-z0-9\-_]+$/.test(form.device_code.trim())) errs.device_code = "Device code can only contain letters, numbers, hyphens and underscores.";
+    if (!form.site_id) errs.site_id = "Please select a site.";
+    if (form.firmware_version.trim() && !/^v?\d+\.\d+(\.\d+)?$/.test(form.firmware_version.trim()))
+      errs.firmware_version = "Use format like v1.0.0 or 1.0.0.";
+    if (Object.keys(errs).length) { setFieldErrors(errs); return; }
     try {
       setLoading(true);
       const res = await fetch(`${API_BASE}/devices`, {
@@ -100,21 +109,34 @@ function AddDeviceModal({ onClose, onSuccess, sites }) {
     finally { setLoading(false); }
   }
 
+  const fe = (k) => ({ border: fieldErrors[k] ? "1px solid #DC2626" : undefined });
+  const ErrMsg = ({ k }) => fieldErrors[k] ? <span style={{ color: "#DC2626", fontSize: "12px" }}>{fieldErrors[k]}</span> : null;
+
   return (
     <ModalWrapper title="Add Device" onClose={onClose}>
       <form onSubmit={handleSubmit}>
-        <Field label="Device Name" value={form.device_name} placeholder="e.g., Sensor Unit A"
-          onChange={(e) => update("device_name", e.target.value)} />
-        <Field label="Device Code" value={form.device_code} placeholder="e.g., DEV-001"
-          onChange={(e) => update("device_code", e.target.value)} />
+        <div className="field">
+          <label className="label">Device Name <span style={{ color: "#DC2626" }}>*</span></label>
+          <input className="input" value={form.device_name} placeholder="e.g., Sensor Unit A"
+            style={fe("device_name")} onChange={(e) => update("device_name", e.target.value)} />
+          <ErrMsg k="device_name" />
+        </div>
+        <div className="field">
+          <label className="label">Device Code <span style={{ color: "#DC2626" }}>*</span></label>
+          <input className="input" value={form.device_code} placeholder="e.g., DEV-001"
+            style={fe("device_code")} onChange={(e) => update("device_code", e.target.value)} />
+          <ErrMsg k="device_code" />
+        </div>
 
         <div className="twoCol">
           <div className="field">
-            <label className="label">Site</label>
-            <select className="select" value={form.site_id} onChange={(e) => update("site_id", e.target.value)}>
+            <label className="label">Site <span style={{ color: "#DC2626" }}>*</span></label>
+            <select className="select" value={form.site_id} style={fe("site_id")}
+              onChange={(e) => update("site_id", e.target.value)}>
               <option value="">Select Site</option>
               {sites.map((s) => <option key={s.site_id} value={s.site_id}>{s.site_name}</option>)}
             </select>
+            <ErrMsg k="site_id" />
           </div>
           <div className="field">
             <label className="label">Device Type</label>
@@ -132,8 +154,12 @@ function AddDeviceModal({ onClose, onSuccess, sites }) {
               <option value="maintenance">Maintenance</option>
             </select>
           </div>
-          <Field label="Firmware Version" value={form.firmware_version} placeholder="e.g., v1.2.0"
-            onChange={(e) => update("firmware_version", e.target.value)} />
+          <div className="field">
+            <label className="label">Firmware Version</label>
+            <input className="input" value={form.firmware_version} placeholder="e.g., v1.2.0"
+              style={fe("firmware_version")} onChange={(e) => update("firmware_version", e.target.value)} />
+            <ErrMsg k="firmware_version" />
+          </div>
         </div>
 
         {error && <div className="formError">{error}</div>}
@@ -156,17 +182,26 @@ function EditDeviceModal({ device, onClose, onSuccess, sites }) {
     site_id: device.site_id || "", device_type: device.device_type || "",
     status: device.status || "active", firmware_version: device.firmware_version || "",
   });
-  const [error, setError]   = useState("");
+  const [error, setError]     = useState("");
+  const [fieldErrors, setFieldErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
-  function update(k, v) { setForm((p) => ({ ...p, [k]: v })); }
+  function update(k, v) {
+    setForm((p) => ({ ...p, [k]: v }));
+    setFieldErrors((p) => ({ ...p, [k]: "" }));
+  }
 
   async function handleSave() {
     setError("");
-    if (!form.device_name.trim() || !form.device_code.trim() || !form.site_id) {
-      setError("Device name, code and site are required.");
-      return;
-    }
+    const errs = {};
+    if (!form.device_name.trim()) errs.device_name = "Device name is required.";
+    else if (form.device_name.trim().length < 2) errs.device_name = "Device name must be at least 2 characters.";
+    if (!form.device_code.trim()) errs.device_code = "Device code is required.";
+    else if (!/^[A-Za-z0-9\-_]+$/.test(form.device_code.trim())) errs.device_code = "Device code can only contain letters, numbers, hyphens and underscores.";
+    if (!form.site_id) errs.site_id = "Please select a site.";
+    if (form.firmware_version.trim() && !/^v?\d+\.\d+(\.\d+)?$/.test(form.firmware_version.trim()))
+      errs.firmware_version = "Use format like v1.0.0 or 1.0.0.";
+    if (Object.keys(errs).length) { setFieldErrors(errs); return; }
     try {
       setLoading(true);
       const res = await fetch(`${API_BASE}/devices/${device.device_id}`, {
@@ -195,20 +230,33 @@ function EditDeviceModal({ device, onClose, onSuccess, sites }) {
     finally { setLoading(false); }
   }
 
+  const fe = (k) => ({ border: fieldErrors[k] ? "1px solid #DC2626" : undefined });
+  const ErrMsg = ({ k }) => fieldErrors[k] ? <span style={{ color: "#DC2626", fontSize: "12px" }}>{fieldErrors[k]}</span> : null;
+
   return (
     <ModalWrapper title="Edit Device" onClose={onClose}>
-      <Field label="Device Name" value={form.device_name} placeholder="e.g., Sensor Unit A"
-        onChange={(e) => update("device_name", e.target.value)} />
-      <Field label="Device Code" value={form.device_code} placeholder="e.g., DEV-001"
-        onChange={(e) => update("device_code", e.target.value)} />
+      <div className="field">
+        <label className="label">Device Name <span style={{ color: "#DC2626" }}>*</span></label>
+        <input className="input" value={form.device_name} placeholder="e.g., Sensor Unit A"
+          style={fe("device_name")} onChange={(e) => update("device_name", e.target.value)} />
+        <ErrMsg k="device_name" />
+      </div>
+      <div className="field">
+        <label className="label">Device Code <span style={{ color: "#DC2626" }}>*</span></label>
+        <input className="input" value={form.device_code} placeholder="e.g., DEV-001"
+          style={fe("device_code")} onChange={(e) => update("device_code", e.target.value)} />
+        <ErrMsg k="device_code" />
+      </div>
 
       <div className="twoCol">
         <div className="field">
-          <label className="label">Site</label>
-          <select className="select" value={form.site_id} onChange={(e) => update("site_id", e.target.value)}>
+          <label className="label">Site <span style={{ color: "#DC2626" }}>*</span></label>
+          <select className="select" value={form.site_id} style={fe("site_id")}
+            onChange={(e) => update("site_id", e.target.value)}>
             <option value="">Select Site</option>
             {sites.map((s) => <option key={s.site_id} value={s.site_id}>{s.site_name}</option>)}
           </select>
+          <ErrMsg k="site_id" />
         </div>
         <div className="field">
           <label className="label">Device Type</label>
@@ -226,8 +274,12 @@ function EditDeviceModal({ device, onClose, onSuccess, sites }) {
             <option value="maintenance">Maintenance</option>
           </select>
         </div>
-        <Field label="Firmware Version" value={form.firmware_version} placeholder="e.g., v1.2.0"
-          onChange={(e) => update("firmware_version", e.target.value)} />
+        <div className="field">
+          <label className="label">Firmware Version</label>
+          <input className="input" value={form.firmware_version} placeholder="e.g., v1.2.0"
+            style={fe("firmware_version")} onChange={(e) => update("firmware_version", e.target.value)} />
+          <ErrMsg k="firmware_version" />
+        </div>
       </div>
 
       {error && <div className="formError">{error}</div>}
