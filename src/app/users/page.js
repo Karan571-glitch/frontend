@@ -140,11 +140,16 @@ function EditUserModal({ user, onClose, onSuccess }) {
     try {
       setLoading(true);
       const headers = { "Content-Type": "application/json", ...getAuthHeaders() };
-      const [roleRes, statusRes] = await Promise.all([
-        fetch(`${API_BASE}/users/${user.user_id}/role`,   { method: "PUT", headers, body: JSON.stringify({ role_id:   form.role_id   }) }),
-        fetch(`${API_BASE}/users/${user.user_id}/status`, { method: "PUT", headers, body: JSON.stringify({ is_active: form.is_active }) }),
-      ]);
-      if (!roleRes.ok || !statusRes.ok) { setError("Update failed"); return; }
+      const res = await fetch(`${API_BASE}/users/${user.user_id}`, {
+        method: "PUT",
+        headers,
+        body: JSON.stringify({
+          name:      form.name ?? user.name,
+          role_id:   form.role_id,
+          is_active: form.is_active,
+        }),
+      });
+      if (!res.ok) { setError("Update failed"); return; }
       onSuccess(); onClose();
     } catch { setError("Server error"); }
     finally { setLoading(false); }
@@ -347,4 +352,3 @@ export default function UsersPage() {
     </AppShell>
   );
 }
-
