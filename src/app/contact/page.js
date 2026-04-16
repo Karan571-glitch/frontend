@@ -2,9 +2,35 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
 import "./contact.css";
 
 export default function ContactPage() {
+  const [form, setForm] = useState({ fullName: "", company: "", email: "", phone: "", message: "" });
+  const [errors, setErrors] = useState({});
+  const [submitted, setSubmitted] = useState(false);
+
+  const update = (field, value) => {
+    setForm((p) => ({ ...p, [field]: value }));
+    setErrors((p) => ({ ...p, [field]: "" }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const errs = {};
+    if (!form.fullName.trim()) errs.fullName = "Full name is required.";
+    else if (form.fullName.trim().length < 2) errs.fullName = "Name must be at least 2 characters.";
+    if (!form.email.trim()) errs.email = "Email is required.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) errs.email = "Please enter a valid email address.";
+    if (form.phone.trim() && !/^[+\d\s\-().]{7,20}$/.test(form.phone.trim())) errs.phone = "Please enter a valid phone number.";
+    if (!form.message.trim()) errs.message = "Message is required.";
+    else if (form.message.trim().length < 10) errs.message = "Message must be at least 10 characters.";
+    if (Object.keys(errs).length) { setErrors(errs); return; }
+    setSubmitted(true);
+  };
+
+  const errStyle = { color: "#DC2626", fontSize: "12px", marginTop: "4px", display: "block" };
+  const inputBorder = (field) => errors[field] ? "1px solid #DC2626" : undefined;
   return (
     <div className="contactPage">
       <header className="contactHeader">
@@ -62,36 +88,75 @@ export default function ContactPage() {
             <h2>Send Us a Message</h2>
             <p>Complete this form and our team will reply shortly.</p>
 
-            <form className="contactForm" onSubmit={(e) => e.preventDefault()}>
-              <div className="twoCol">
-                <label>
-                  Full Name
-                  <input type="text" placeholder="Your full name" />
-                </label>
-                <label>
-                  Company
-                  <input type="text" placeholder="Company name" />
-                </label>
+            {submitted ? (
+              <div style={{ padding: "24px", textAlign: "center", color: "#15803D", fontWeight: 600, fontSize: "16px" }}>
+                ✓ Thank you! Your message has been sent. We will be in touch shortly.
               </div>
+            ) : (
+              <form className="contactForm" onSubmit={handleSubmit} noValidate>
+                <div className="twoCol">
+                  <label>
+                    Full Name <span style={{ color: "#DC2626" }}>*</span>
+                    <input
+                      type="text"
+                      placeholder="Your full name"
+                      value={form.fullName}
+                      onChange={(e) => update("fullName", e.target.value)}
+                      style={{ border: inputBorder("fullName") }}
+                    />
+                    {errors.fullName && <span style={errStyle}>{errors.fullName}</span>}
+                  </label>
+                  <label>
+                    Company
+                    <input
+                      type="text"
+                      placeholder="Company name"
+                      value={form.company}
+                      onChange={(e) => update("company", e.target.value)}
+                    />
+                  </label>
+                </div>
 
-              <div className="twoCol">
+                <div className="twoCol">
+                  <label>
+                    Email <span style={{ color: "#DC2626" }}>*</span>
+                    <input
+                      type="email"
+                      placeholder="name@company.com"
+                      value={form.email}
+                      onChange={(e) => update("email", e.target.value)}
+                      style={{ border: inputBorder("email") }}
+                    />
+                    {errors.email && <span style={errStyle}>{errors.email}</span>}
+                  </label>
+                  <label>
+                    Phone
+                    <input
+                      type="text"
+                      placeholder="+1 (555) 000-0000"
+                      value={form.phone}
+                      onChange={(e) => update("phone", e.target.value)}
+                      style={{ border: inputBorder("phone") }}
+                    />
+                    {errors.phone && <span style={errStyle}>{errors.phone}</span>}
+                  </label>
+                </div>
+
                 <label>
-                  Email
-                  <input type="email" placeholder="name@company.com" />
+                  Message <span style={{ color: "#DC2626" }}>*</span>
+                  <textarea
+                    rows="5"
+                    placeholder="Tell us how we can help"
+                    value={form.message}
+                    onChange={(e) => update("message", e.target.value)}
+                    style={{ border: inputBorder("message") }}
+                  />
+                  {errors.message && <span style={errStyle}>{errors.message}</span>}
                 </label>
-                <label>
-                  Phone
-                  <input type="text" placeholder="+1 (555) 000-0000" />
-                </label>
-              </div>
 
-              <label>
-                Message
-                <textarea rows="5" placeholder="Tell us how we can help" />
-              </label>
-
-              <button type="submit">Submit Request</button>
-            </form>
+                <button type="submit">Submit Request</button>
+              </form>
+            )}
           </div>
         </section>
       </main>
