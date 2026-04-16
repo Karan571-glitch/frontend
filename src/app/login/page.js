@@ -11,6 +11,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
   const [error, setError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState({});
 
   const [showForgot, setShowForgot] = useState(false);
   const [resetEmail, setResetEmail] = useState("");
@@ -21,6 +22,13 @@ export default function LoginPage() {
 
   const handleLogin = async () => {
     setError("");
+    const errs = {};
+    if (!username.trim()) errs.username = "Email is required.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(username.trim())) errs.username = "Please enter a valid email address.";
+    if (!password) errs.password = "Password is required.";
+    else if (password.length < 6) errs.password = "Password must be at least 6 characters.";
+    if (Object.keys(errs).length) { setFieldErrors(errs); return; }
+    setFieldErrors({});
 
     const url = `${API_BASE}/auth/login`;
     console.log("[login] POST", url);
@@ -73,6 +81,10 @@ export default function LoginPage() {
 
     if (!resetEmail.trim()) {
       setResetError("Please enter your email address.");
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(resetEmail.trim())) {
+      setResetError("Please enter a valid email address.");
       return;
     }
 
@@ -286,21 +298,24 @@ export default function LoginPage() {
               <input
                 type="text"
                 value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => { setUsername(e.target.value); setFieldErrors((p) => ({ ...p, username: "" })); }}
                 placeholder="Enter your email"
                 style={{
                   width: "100%",
                   padding: "14px",
                   marginTop: "8px",
-                  marginBottom: "20px",
+                  marginBottom: fieldErrors.username ? "4px" : "20px",
                   borderRadius: "8px",
-                  border: "1px solid #CBD5E1",
+                  border: `1px solid ${fieldErrors.username ? "#DC2626" : "#CBD5E1"}`,
                   fontSize: "14px",
                   backgroundColor: "#FFFFFF",
                   color: "#0F172A",
                   outline: "none",
                 }}
               />
+              {fieldErrors.username && (
+                <p style={{ color: "#DC2626", fontSize: "12px", marginBottom: "12px" }}>{fieldErrors.username}</p>
+              )}
 
               <label
                 style={{
@@ -316,14 +331,14 @@ export default function LoginPage() {
                 <input
                   type={show ? "text" : "password"}
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => { setPassword(e.target.value); setFieldErrors((p) => ({ ...p, password: "" })); }}
                   placeholder="Enter your password"
                   style={{
                     width: "100%",
                     padding: "14px",
                     paddingRight: "45px",
                     borderRadius: "8px",
-                    border: "1px solid #CBD5E1",
+                    border: `1px solid ${fieldErrors.password ? "#DC2626" : "#CBD5E1"}`,
                     fontSize: "14px",
                     backgroundColor: "#FFFFFF",
                     color: "#0F172A",
@@ -350,6 +365,9 @@ export default function LoginPage() {
                   👁
                 </button>
               </div>
+              {fieldErrors.password && (
+                <p style={{ color: "#DC2626", fontSize: "12px", marginTop: "4px" }}>{fieldErrors.password}</p>
+              )}
 
               {error && (
                 <p
