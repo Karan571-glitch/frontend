@@ -198,7 +198,7 @@ export default function ReportsPage() {
                         </td>
                         <td data-label="Last Update">{r.time}</td>
                         <td data-label="Actions">
-                          <button className="repViewBtn">View</button>
+                        <button className="repViewBtn" onClick={() => setViewRow(r)}>View</button>
                         </td>
                       </tr>
                     ))
