@@ -131,80 +131,23 @@ export default function AllocationPage() {
         </section>
 
         {/* ───── STATS ───── */}
-<section className="userCards responsiveSection" aria-label="Allocation statistics">
-  <div className="userCard">
-    <div className="userCardIcon">
-      <svg
-        viewBox="0 0 24 24"
-        className="userCardGlyph"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden="true"
-      >
-        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-        <circle cx="8.5" cy="7" r="4" />
-        <path d="M20 8v6" />
-        <path d="M23 11h-6" />
-      </svg>
-    </div>
-    <div>
-      <div className="userCardValue">{totalTechs}</div>
-      <div className="userCardLabel">Total Technicians</div>
-    </div>
-  </div>
-
-  <div className="userCard">
-    <div className="userCardIcon">
-      <svg
-        viewBox="0 0 24 24"
-        className="userCardGlyph"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden="true"
-      >
-        <path d="M20 6L9 17l-5-5" />
-      </svg>
-    </div>
-    <div>
-      <div className="userCardValue">{activeTechs}</div>
-      <div className="userCardLabel">Active Assignments</div>
-    </div>
-  </div>
-
-  <div className="userCard">
-    <div className="userCardIcon">
-      <svg
-        viewBox="0 0 24 24"
-        className="userCardGlyph"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden="true"
-      >
-        <path d="M3 21h18" />
-        <path d="M5 21V7l7-4 7 4v14" />
-        <path d="M9 10h.01" />
-        <path d="M9 14h.01" />
-        <path d="M9 18h.01" />
-        <path d="M15 10h.01" />
-        <path d="M15 14h.01" />
-        <path d="M15 18h.01" />
-      </svg>
-    </div>
-    <div>
-      <div className="userCardValue">{totalSites}</div>
-      <div className="userCardLabel">Total Sites</div>
-    </div>
-  </div>
-</section>
+        <div className="allocStats">
+          <div className="allocStat">
+            <p className="statLabel">Total Technicians</p>
+            <p className="statValue">{totalTechs}</p>
+            <p className="statSub">Registered in system</p>
+          </div>
+          <div className="allocStat">
+            <p className="statLabel">Active Assignments</p>
+            <p className="statValue">{activeTechs}</p>
+            <p className="statSub">Currently deployed</p>
+          </div>
+          <div className="allocStat">
+            <p className="statLabel">Total Sites</p>
+            <p className="statValue">{totalSites}</p>
+            <p className="statSub">Managed locations</p>
+          </div>
+        </div>
 
         {/* ───── FORM CARD ───── */}
         <div className="allocFormCard">
