@@ -60,17 +60,23 @@ function Field({ label, value, onChange, placeholder, type = "text" }) {
 function AddSiteModal({ onClose, onSuccess }) {
   const [form, setForm]       = useState({ site_name: "", site_code: "", location: "", is_active: true });
   const [error, setError]     = useState("");
+  const [fieldErrors, setFieldErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const updateField = (key, value) => setForm((prev) => ({ ...prev, [key]: value }));
+  const updateField = (key, value) => {
+    setForm((prev) => ({ ...prev, [key]: value }));
+    setFieldErrors((p) => ({ ...p, [key]: "" }));
+  };
 
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
-    if (!form.site_name.trim() || !form.location.trim()) {
-      setError("Site name and location are required.");
-      return;
-    }
+    const errs = {};
+    if (!form.site_name.trim()) errs.site_name = "Site name is required.";
+    else if (form.site_name.trim().length < 2) errs.site_name = "Site name must be at least 2 characters.";
+    if (!form.location.trim()) errs.location = "Location is required.";
+    if (form.site_code.trim() && !/^[A-Za-z0-9\-_]+$/.test(form.site_code.trim())) errs.site_code = "Site code can only contain letters, numbers, hyphens and underscores.";
+    if (Object.keys(errs).length) { setFieldErrors(errs); return; }
     try {
       setLoading(true);
       const res  = await fetch(`${API_BASE}/sites`, {
@@ -88,12 +94,27 @@ function AddSiteModal({ onClose, onSuccess }) {
   return (
     <ModalWrapper title="Add New Site" onClose={onClose}>
       <form onSubmit={handleSubmit}>
-        <Field label="Site Name" value={form.site_name} placeholder="e.g., Loading Dock Sensors"
-          onChange={(e) => updateField("site_name", e.target.value)} />
-        <Field label="Site Code" value={form.site_code} placeholder="e.g., SITE-001"
-          onChange={(e) => updateField("site_code", e.target.value)} />
-        <Field label="Location"  value={form.location}  placeholder="e.g., Section A - Loading Dock"
-          onChange={(e) => updateField("location", e.target.value)} />
+        <div className="field">
+          <label className="label">Site Name <span style={{ color: "#DC2626" }}>*</span></label>
+          <input className="input" value={form.site_name} placeholder="e.g., Loading Dock Sensors"
+            onChange={(e) => updateField("site_name", e.target.value)}
+            style={{ border: fieldErrors.site_name ? "1px solid #DC2626" : undefined }} />
+          {fieldErrors.site_name && <span style={{ color: "#DC2626", fontSize: "12px" }}>{fieldErrors.site_name}</span>}
+        </div>
+        <div className="field">
+          <label className="label">Site Code</label>
+          <input className="input" value={form.site_code} placeholder="e.g., SITE-001"
+            onChange={(e) => updateField("site_code", e.target.value)}
+            style={{ border: fieldErrors.site_code ? "1px solid #DC2626" : undefined }} />
+          {fieldErrors.site_code && <span style={{ color: "#DC2626", fontSize: "12px" }}>{fieldErrors.site_code}</span>}
+        </div>
+        <div className="field">
+          <label className="label">Location <span style={{ color: "#DC2626" }}>*</span></label>
+          <input className="input" value={form.location} placeholder="e.g., Section A - Loading Dock"
+            onChange={(e) => updateField("location", e.target.value)}
+            style={{ border: fieldErrors.location ? "1px solid #DC2626" : undefined }} />
+          {fieldErrors.location && <span style={{ color: "#DC2626", fontSize: "12px" }}>{fieldErrors.location}</span>}
+        </div>
         {error && <div className="formError">{error}</div>}
         <div className="modalActions">
           <button type="button" className="btnSecondary" onClick={onClose} disabled={loading}>Cancel</button>
@@ -112,16 +133,22 @@ function EditSiteModal({ site, onClose, onSuccess }) {
     location: site.location || "", is_active: !!site.is_active,
   });
   const [error, setError]     = useState("");
+  const [fieldErrors, setFieldErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const updateField = (key, value) => setForm((prev) => ({ ...prev, [key]: value }));
+  const updateField = (key, value) => {
+    setForm((prev) => ({ ...prev, [key]: value }));
+    setFieldErrors((p) => ({ ...p, [key]: "" }));
+  };
 
   async function handleSave() {
     setError("");
-    if (!form.site_name.trim() || !form.site_code.trim() || !form.location.trim()) {
-      setError("Site name, code and location are required.");
-      return;
-    }
+    const errs = {};
+    if (!form.site_name.trim()) errs.site_name = "Site name is required.";
+    if (!form.site_code.trim()) errs.site_code = "Site code is required.";
+    else if (!/^[A-Za-z0-9\-_]+$/.test(form.site_code.trim())) errs.site_code = "Site code can only contain letters, numbers, hyphens and underscores.";
+    if (!form.location.trim()) errs.location = "Location is required.";
+    if (Object.keys(errs).length) { setFieldErrors(errs); return; }
     try {
       setLoading(true);
       const res  = await fetch(`${API_BASE}/sites/${site.site_id}`, {
@@ -151,9 +178,24 @@ function EditSiteModal({ site, onClose, onSuccess }) {
 
   return (
     <ModalWrapper title="Edit Site" onClose={onClose}>
-      <Field label="Site Name" value={form.site_name} onChange={(e) => updateField("site_name", e.target.value)} />
-      <Field label="Site Code" value={form.site_code} onChange={(e) => updateField("site_code", e.target.value)} />
-      <Field label="Location"  value={form.location}  onChange={(e) => updateField("location",  e.target.value)} />
+      <div className="field">
+        <label className="label">Site Name <span style={{ color: "#DC2626" }}>*</span></label>
+        <input className="input" value={form.site_name} onChange={(e) => updateField("site_name", e.target.value)}
+          style={{ border: fieldErrors.site_name ? "1px solid #DC2626" : undefined }} />
+        {fieldErrors.site_name && <span style={{ color: "#DC2626", fontSize: "12px" }}>{fieldErrors.site_name}</span>}
+      </div>
+      <div className="field">
+        <label className="label">Site Code <span style={{ color: "#DC2626" }}>*</span></label>
+        <input className="input" value={form.site_code} onChange={(e) => updateField("site_code", e.target.value)}
+          style={{ border: fieldErrors.site_code ? "1px solid #DC2626" : undefined }} />
+        {fieldErrors.site_code && <span style={{ color: "#DC2626", fontSize: "12px" }}>{fieldErrors.site_code}</span>}
+      </div>
+      <div className="field">
+        <label className="label">Location <span style={{ color: "#DC2626" }}>*</span></label>
+        <input className="input" value={form.location} onChange={(e) => updateField("location", e.target.value)}
+          style={{ border: fieldErrors.location ? "1px solid #DC2626" : undefined }} />
+        {fieldErrors.location && <span style={{ color: "#DC2626", fontSize: "12px" }}>{fieldErrors.location}</span>}
+      </div>
       {error && <div className="formError">{error}</div>}
       <div className="modalActions between">
         <button className="btnDanger" type="button" onClick={handleDelete} disabled={loading}>
