@@ -247,7 +247,7 @@ export default function DashboardPage() {
               </div>
               <div>
                 <div className="dashCardValue">{stats.total_users}</div>
-                <div className="dashCardLabel">Update Failures</div>
+                <div className="dashCardLabel">Total users</div>
               </div>
             </div>
 
