@@ -124,14 +124,14 @@
 
 /* ================= STATS ROW ================= */
 
-.userCards {
+.allocStats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
   margin-bottom: 24px;
 }
 
-.userCard {
+.allocStat {
   background: #ffffff;
   border: 1px solid rgba(0, 86, 150, 0.10);
   border-radius: 16px;
@@ -140,60 +140,43 @@
   position: relative;
   overflow: hidden;
   transition: box-shadow 0.2s ease, transform 0.2s ease;
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
 }
 
-.userCard::before {
+.allocStat::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 0; left: 0; right: 0;
   height: 3px;
   background: linear-gradient(90deg, #005696, #0a7cc9);
   border-radius: 16px 16px 0 0;
 }
 
-.userCard:hover {
+.allocStat:hover {
   box-shadow: 0 8px 24px rgba(0, 56, 110, 0.12);
   transform: translateY(-2px);
 }
 
-.userCardIcon {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-  background: #e6f1fa;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.userCardGlyph {
-  width: 20px;
-  height: 20px;
-  color: #005696;
-}
-
-.userCardValue {
-  font-size: 32px;
-  font-weight: 900;
-  color: #003f6e;
-  line-height: 1;
-  letter-spacing: -1px;
-  margin-bottom: 6px;
-}
-
-.userCardLabel {
+.allocStat .statLabel {
   font-size: 11px;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.10em;
   color: #64748b;
-  margin: 0 0 4px;
+  margin: 0 0 8px;
+}
+
+.allocStat .statValue {
+  font-size: 32px;
+  font-weight: 900;
+  color: #003f6e;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.allocStat .statSub {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-top: 4px;
 }
 
 /* ================= FORM CARD ================= */
@@ -560,7 +543,7 @@
 /* ================= RESPONSIVE ================= */
 
 @media (max-width: 1080px) {
-  .userCards {
+  .allocStats {
     grid-template-columns: repeat(3, 1fr);
   }
 }
@@ -572,7 +555,7 @@
     gap: 12px;
   }
 
-  .userCards {
+  .allocStats {
     grid-template-columns: 1fr 1fr;
   }
 
@@ -607,7 +590,7 @@
     font-size: 26px;
   }
 
-  .userCards {
+  .allocStats {
     grid-template-columns: 1fr;
   }
 
