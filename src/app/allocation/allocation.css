@@ -21,10 +21,8 @@
 .allocationHero::before {
   content: "";
   position: absolute;
-  top: -60px;
-  right: -60px;
-  width: 260px;
-  height: 260px;
+  top: -60px; right: -60px;
+  width: 260px; height: 260px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.05);
   pointer-events: none;
@@ -33,10 +31,8 @@
 .allocationHero::after {
   content: "";
   position: absolute;
-  bottom: -80px;
-  right: 120px;
-  width: 200px;
-  height: 200px;
+  bottom: -80px; right: 120px;
+  width: 200px; height: 200px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.04);
   pointer-events: none;
@@ -58,8 +54,7 @@
 .allocationHero .kicker::before {
   content: "";
   display: inline-block;
-  width: 20px;
-  height: 2px;
+  width: 20px; height: 2px;
   background: rgba(255, 255, 255, 0.5);
   border-radius: 2px;
 }
@@ -98,8 +93,7 @@
 .allocBadge::before {
   content: "";
   display: inline-block;
-  width: 8px;
-  height: 8px;
+  width: 8px; height: 8px;
   border-radius: 50%;
   background: #4ade80;
   box-shadow: 0 0 6px #4ade80;
@@ -122,7 +116,7 @@
   background: linear-gradient(90deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.15) 100%);
 }
 
-/* ================= STATS ROW ================= */
+/* ================= STAT CARDS — matching Sites/Users/Dashboard ================= */
 
 .allocStats {
   display: grid;
@@ -140,6 +134,9 @@
   position: relative;
   overflow: hidden;
   transition: box-shadow 0.2s ease, transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .allocStat::before {
@@ -156,27 +153,40 @@
   transform: translateY(-2px);
 }
 
-.allocStat .statLabel {
-  font-size: 11px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.10em;
-  color: #64748b;
-  margin: 0 0 8px;
+/* Icon box — identical to Sites/Users/Dashboard */
+.allocStatIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  background: #e6f1fa;
+  color: #005696;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
-.allocStat .statValue {
-  font-size: 32px;
+.allocStatGlyph {
+  width: 20px;
+  height: 20px;
+  color: #005696;
+}
+
+.allocStatValue {
+  font-size: 36px;
   font-weight: 900;
   color: #003f6e;
   line-height: 1;
-  letter-spacing: -1px;
+  letter-spacing: -1.5px;
 }
 
-.allocStat .statSub {
+.allocStatLabel {
   font-size: 12px;
-  color: #94a3b8;
-  margin-top: 4px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 2px;
 }
 
 /* ================= FORM CARD ================= */
@@ -305,9 +315,7 @@
   box-shadow: 0 8px 20px rgba(0, 86, 150, 0.30);
 }
 
-.allocSaveBtn:active {
-  transform: translateY(0);
-}
+.allocSaveBtn:active { transform: translateY(0); }
 
 /* ================= MESSAGE ================= */
 
@@ -411,10 +419,6 @@
   border-bottom: 1px solid rgba(0, 86, 150, 0.08);
 }
 
-.allocTable th:first-child {
-  border-radius: 0;
-}
-
 .allocTable td {
   padding: 15px 20px;
   border-bottom: 1px solid rgba(0, 86, 150, 0.06);
@@ -423,17 +427,9 @@
   vertical-align: middle;
 }
 
-.allocTable tr:last-child td {
-  border-bottom: none;
-}
-
-.allocTable tbody tr {
-  transition: background 0.15s ease;
-}
-
-.allocTable tbody tr:hover {
-  background: #f8faff;
-}
+.allocTable tr:last-child td { border-bottom: none; }
+.allocTable tbody tr { transition: background 0.15s ease; }
+.allocTable tbody tr:hover { background: #f8faff; }
 
 /* Tech name cell */
 .techNameCell {
@@ -501,35 +497,13 @@
   border: 1px solid transparent;
 }
 
-.allocStatus.active {
-  background: #e9f8ef;
-  color: #1b7f3a;
-  border-color: #bfeecd;
-}
-
-.allocStatus.inactive {
-  background: #f1f5f9;
-  color: #64748b;
-  border-color: #e2e8f0;
-}
+.allocStatus.active   { background: #e9f8ef; color: #1b7f3a; border-color: #bfeecd; }
+.allocStatus.inactive { background: #f1f5f9; color: #64748b; border-color: #e2e8f0; }
 
 /* Empty state */
-.allocEmptyState {
-  text-align: center;
-  padding: 56px 20px;
-}
-
-.allocEmptyIcon {
-  font-size: 40px;
-  margin-bottom: 12px;
-  opacity: 0.4;
-}
-
-.allocEmptyState p {
-  color: #94a3b8;
-  font-size: 14px;
-  margin: 0;
-}
+.allocEmptyState { text-align: center; padding: 56px 20px; }
+.allocEmptyIcon  { font-size: 40px; margin-bottom: 12px; opacity: 0.4; }
+.allocEmptyState p { color: #94a3b8; font-size: 14px; margin: 0; }
 
 /* ================= FOOTER ================= */
 
@@ -542,91 +516,27 @@
 
 /* ================= RESPONSIVE ================= */
 
-@media (max-width: 1080px) {
-  .allocStats {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
 @media (max-width: 820px) {
-  .allocationHero .heroTop {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .allocStats {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .allocFormBody {
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-
-  .allocSaveBtn {
-    width: 100%;
-    text-align: center;
-  }
-
-  .allocTableHead {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .allocSearch {
-    width: 100%;
-  }
+  .allocationHero .heroTop { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .allocStats { grid-template-columns: 1fr 1fr; }
+  .allocFormBody { grid-template-columns: 1fr; gap: 14px; }
+  .allocSaveBtn { width: 100%; text-align: center; }
+  .allocTableHead { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .allocSearch { width: 100%; }
 }
 
 @media (max-width: 520px) {
-  .allocationHero {
-    padding: 22px 20px;
-    border-radius: 14px;
-  }
+  .allocationHero { padding: 22px 20px; border-radius: 14px; }
+  .allocationHero h1 { font-size: 26px; }
+  .allocStats { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .allocStatValue { font-size: 28px; }
+  .allocFormCard, .allocTableCard { border-radius: 12px; }
+  .allocFormBody { padding: 16px; }
+  .allocTableHead { padding: 14px 16px; }
 
-  .allocationHero h1 {
-    font-size: 26px;
-  }
-
-  .allocStats {
-    grid-template-columns: 1fr;
-  }
-
-  .allocFormCard,
-  .allocTableCard {
-    border-radius: 12px;
-  }
-
-  .allocFormBody {
-    padding: 16px;
-  }
-
-  .allocTableHead {
-    padding: 14px 16px;
-  }
-
-  .allocTable th,
-  .allocTable td {
-    padding: 12px 14px;
-  }
-
-  .allocTable {
-    min-width: 0;
-  }
-
-  .allocTable thead {
-    display: none;
-  }
-
-  .allocTable,
-  .allocTable tbody,
-  .allocTable tr,
-  .allocTable td {
-    display: block;
-    width: 100%;
-  }
+  .allocTable { min-width: 0; }
+  .allocTable thead { display: none; }
+  .allocTable, .allocTable tbody, .allocTable tr, .allocTable td { display: block; width: 100%; }
 
   .allocTable tr {
     border: 1px solid rgba(0, 86, 150, 0.10);
