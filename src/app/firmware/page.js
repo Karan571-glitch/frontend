@@ -13,6 +13,7 @@ export default function FirmwarePage() {
   const [siteId, setSiteId]   = useState("");
   const [uploading, setUploading] = useState(false);
   const [uploadMsg, setUploadMsg] = useState({ text: "", type: "" });
+  const [fieldErrors, setFieldErrors] = useState({});
 
   const [sites, setSites]               = useState([]);
   const [rows, setRows]                 = useState([]);
@@ -88,10 +89,14 @@ export default function FirmwarePage() {
   async function handleUpload(e) {
     e.preventDefault();
     setUploadMsg({ text: "", type: "" });
-
-    if (!version.trim()) { setUploadMsg({ text: "Please enter a firmware version.", type: "error" }); return; }
-    if (!file)           { setUploadMsg({ text: "Please select a firmware file.", type: "error" }); return; }
-    if (!siteId)         { setUploadMsg({ text: "Please select a site.", type: "error" }); return; }
+    const errs = {};
+    if (!version.trim()) errs.version = "Firmware version is required.";
+    else if (!/^v?\d+\.\d+(\.\d+)?$/.test(version.trim())) errs.version = "Use format like v1.0.5 or 1.0.5.";
+    if (!siteId) errs.siteId = "Please select a target site.";
+    if (!file) errs.file = "Please select a firmware file.";
+    else if (file.size > 50 * 1024 * 1024) errs.file = "File must be under 50 MB.";
+    if (Object.keys(errs).length) { setFieldErrors(errs); return; }
+    setFieldErrors({});
 
     try {
       setUploading(true);
@@ -161,21 +166,24 @@ export default function FirmwarePage() {
                 <form className="fwForm" onSubmit={handleUpload}>
 
                   <div className="fwField">
-                    <label className="fwFieldLabel">Firmware Version</label>
+                    <label className="fwFieldLabel">Firmware Version <span style={{ color: "#DC2626" }}>*</span></label>
                     <input
                       className="fwInput"
                       placeholder="e.g., v1.0.5"
                       value={version}
-                      onChange={(e) => setVersion(e.target.value)}
+                      onChange={(e) => { setVersion(e.target.value); setFieldErrors((p) => ({ ...p, version: "" })); }}
+                      style={{ border: fieldErrors.version ? "1px solid #DC2626" : undefined }}
                     />
+                    {fieldErrors.version && <span style={{ color: "#DC2626", fontSize: "12px" }}>{fieldErrors.version}</span>}
                   </div>
 
                   <div className="fwField">
-                    <label className="fwFieldLabel">Target Site</label>
+                    <label className="fwFieldLabel">Target Site <span style={{ color: "#DC2626" }}>*</span></label>
                     <select
                       className="fwSelect"
                       value={siteId}
-                      onChange={(e) => setSiteId(e.target.value)}
+                      onChange={(e) => { setSiteId(e.target.value); setFieldErrors((p) => ({ ...p, siteId: "" })); }}
+                      style={{ border: fieldErrors.siteId ? "1px solid #DC2626" : undefined }}
                     >
                       <option value="">Choose a site…</option>
                       {sites.map((site) => (
@@ -184,23 +192,25 @@ export default function FirmwarePage() {
                         </option>
                       ))}
                     </select>
+                    {fieldErrors.siteId && <span style={{ color: "#DC2626", fontSize: "12px" }}>{fieldErrors.siteId}</span>}
                   </div>
 
                   <div className="fwField">
-                    <label className="fwFieldLabel">Firmware File</label>
+                    <label className="fwFieldLabel">Firmware File <span style={{ color: "#DC2626" }}>*</span></label>
                     <div className="fwFileRow">
-                      <label className="fwFileBtn">
+                      <label className="fwFileBtn" style={{ border: fieldErrors.file ? "1px solid #DC2626" : undefined }}>
                         Choose File
                         <input
                           type="file"
                           className="fwFileInput"
-                          onChange={(e) => setFile(e.target.files?.[0] || null)}
+                          onChange={(e) => { setFile(e.target.files?.[0] || null); setFieldErrors((p) => ({ ...p, file: "" })); }}
                         />
                       </label>
                       <span className={`fwFileName${file ? " hasFile" : ""}`}>
                         {fileName}
                       </span>
                     </div>
+                    {fieldErrors.file && <span style={{ color: "#DC2626", fontSize: "12px" }}>{fieldErrors.file}</span>}
                   </div>
 
                   <button className="fwUploadBtn" type="submit" disabled={uploading}>
