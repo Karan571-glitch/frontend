@@ -153,7 +153,6 @@ export default function AllocationPage() {
     <div>
       <div className="userCardValue">{totalTechs}</div>
       <div className="userCardLabel">Total Technicians</div>
-      <div style={{ fontSize: "12px", color: "#94a3b8" }}>Registered in system</div>
     </div>
   </div>
 
@@ -175,7 +174,6 @@ export default function AllocationPage() {
     <div>
       <div className="userCardValue">{activeTechs}</div>
       <div className="userCardLabel">Active Assignments</div>
-      <div style={{ fontSize: "12px", color: "#94a3b8" }}>Currently deployed</div>
     </div>
   </div>
 
@@ -204,7 +202,6 @@ export default function AllocationPage() {
     <div>
       <div className="userCardValue">{totalSites}</div>
       <div className="userCardLabel">Total Sites</div>
-      <div style={{ fontSize: "12px", color: "#94a3b8" }}>Managed locations</div>
     </div>
   </div>
 </section>
