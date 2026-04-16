@@ -170,13 +170,12 @@ export default function ReportsPage() {
                     <th>Version</th>
                     <th>Status</th>
                     <th>Last Update</th>
-                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {rows.length === 0 ? (
                     <tr>
-                      <td colSpan="6">
+                      <td colSpan="5">
                         <div className="repEmptyState">
                           <div className="repEmptyIcon">📊</div>
                           <p>No reports found. Upload firmware to generate activity data.</p>
@@ -197,9 +196,6 @@ export default function ReportsPage() {
                           </span>
                         </td>
                         <td data-label="Last Update">{r.time}</td>
-                        <td data-label="Actions">
-                        <button className="repViewBtn" onClick={() => setViewRow(r)}>View</button>
-                        </td>
                       </tr>
                     ))
                   )}
