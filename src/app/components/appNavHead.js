@@ -129,9 +129,6 @@ export default function AppShell({ active = "dashboard", children }) {
               <button className="ddItem danger" onClick={handleLogout} type="button">
                 Logout
               </button>
-              <Link className="ddItem" href="/settings">
-                Settings
-              </Link>
               <Link className="ddItem" href="/help">
                 Help
               </Link>
