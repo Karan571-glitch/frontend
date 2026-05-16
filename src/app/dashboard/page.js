@@ -29,11 +29,16 @@ function AIInsightCard() {
     if (!deviceId.trim()) { setError("Please enter a Device ID or Device Code."); return; }
     setLoading(true); setError(""); setResult(null);
     try {
-      const res  = await fetch(`${API_BASE}/api/ai/insight`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
-        body: JSON.stringify({ device_id: deviceId.trim() }),
-      });
+      const res = await fetch(
+  `${API_BASE}/api/ai/analyze-device/${deviceId.trim()}`,
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...getAuthHeaders(),
+    },
+  }
+);
       const data = await res.json();
       if (!res.ok) { setError(data.message || "Failed to get AI insight."); return; }
       setResult(data);
